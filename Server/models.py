@@ -71,6 +71,42 @@ class User(BaseModel):
                 "updatedAt": "2023-01-01"
             }
         }
+        
+class UserUpdate(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    email: Optional[str]
+    password: Optional[str]
+    role: Optional[str]
+    firstName: Optional[str]
+    lastName: Optional[str]
+    phoneNumber: Optional[str]
+    specialties: Optional[List[str]]
+    services: Optional[List[str]]
+    active: Optional[bool]
+    createdAt: date # Update this correctly
+    updatedAt: date # Update this correctly
+    
+    class Config:
+        allow_population_by_field_name = True
+        schema_extra = {
+            "example": {
+                "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
+                "email": "user@example.com",
+                "password": "password123",
+                "role": "therapist",
+                "firstName": "John",
+                "lastName": "Doe",
+                "phoneNumber": "1234567890",
+                "specialties": ["specialty1", "specialty2"],
+                "services": ["service1", "service2"],
+                "active": True,
+                "createdAt": "2023-01-01",
+                "updatedAt": "2023-01-01"
+            }
+        } 
+         
+
+
 #Patient
 class Patient(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
@@ -108,7 +144,9 @@ class Patient(BaseModel):
                 "updatedAt": "2023-01-01"
             }
         }
+        
 #JounralEntry
+
 class JournalEntry(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     therapistId: str

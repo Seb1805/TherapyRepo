@@ -606,7 +606,7 @@ class PatientExercise(BaseModel):
             }
         }
 
-class PatientExercise(BaseModel):
+class PatientExerciseUpdate(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     patientId: str
     patientInfo: Dict
@@ -670,6 +670,35 @@ class ClinicSettings(BaseModel):
             }
         }
 
+class ClinicSettingsUpdate(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    clinicName: str
+    address: Dict
+    contactInfo: Dict
+    bankInfo: Dict
+    cvr: str
+    vatExempt: bool
+    businessHours: List[Dict]
+    services: List[str]
+    updatedAt: date
+
+    class Config:
+        allow_population_by_field_name = True
+        schema_extra = {
+            "example": {
+                "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
+                "clinicName": "Health Clinic",
+                "address": {},
+                "contactInfo": {},
+                "bankInfo": {},
+                "cvr": "12345678",
+                "vatExempt": False,
+                "businessHours": [{}],
+                "services": ["service1", "service2"],
+                "updatedAt": "2023-01-01"
+            }
+        }
+
 class BusinessHour(BaseModel):
     day: int
     open: str
@@ -685,6 +714,39 @@ class BusinessHour(BaseModel):
         }
 
 class Service(BaseModel):
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    clinicId: str
+    type: str
+    duration: int
+    price: float
+
+    class Config:
+        allow_population_by_field_name = True
+        schema_extra = {
+            "example": {
+                "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
+                "clinicId": "clinic123",
+                "type": "Consultation",
+                "duration": 60,
+                "price": 100.0
+            }
+        }
+        
+class BusinessHour(BaseModel):
+    day: int
+    open: str
+    close: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "day": 1,
+                "open": "08:00",
+                "close": "17:00"
+            }
+        }
+
+class ServiceUpdate(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     clinicId: str
     type: str

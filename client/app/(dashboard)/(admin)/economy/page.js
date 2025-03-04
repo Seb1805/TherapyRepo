@@ -53,6 +53,7 @@ export default function Economy() {
       <DynamicTable
         data={invoices}
         showFooter
+        utils
         overwriteHeaders={[
           "invoice",
           "paymentStatus",

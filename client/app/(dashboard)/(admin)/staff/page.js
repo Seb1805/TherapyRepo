@@ -53,6 +53,7 @@ export default function Staff() {
       <DynamicTable
               data={invoices}
               showFooter
+              utils
               overwriteHeaders={[
                 "invoice",
                 "paymentStatus",

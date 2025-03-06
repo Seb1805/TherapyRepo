@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from typing import List
-
+from models import PatientExercise
+from client import get_database
 from models import Book, BookUpdate
+from datetime import date
 
 router = APIRouter()
 
@@ -20,6 +22,28 @@ def create_book(request: Request, book: Book = Body(...)):
 def list_books(request: Request):
     books = list(request.app.database["books"].find(limit=100))
     return books
+
+@router.get("/skrald")
+async def addTrashData():
+    # Create an instance of PatientExercise
+    patient_exercise = PatientExercise(
+        patientId="patient123",
+        patientInfo={},
+        exerciseId="exercise123",
+        exerciseInfo={},
+        journalEntryId="journalEntry123",
+        assignedBy="therapist123",
+        assignedByName="John Doe",
+        assignedDate=date(2023, 1, 1),
+        prescription={},
+        notes="Exercise notes...",
+        createdAt=date(2023, 1, 1),
+        updatedAt=date(2023, 1, 1)
+    )
+    db = get_database
+    # Insert the document into MongoDB
+    item = await db['paitentExcercise'].insert_one(patient_exercise.dict())
+    return item
 
 @router.get("/{id}", response_description="Get a single book by id", response_model=Book)
 def find_book(id: str, request: Request):
@@ -54,4 +78,7 @@ def delete_book(id: str, request: Request, response: Response):
         return response
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Book with ID {id} not found")
+
+
+    #db.collection.insert_one(patient_exercise.dict(by_alias=True))
 

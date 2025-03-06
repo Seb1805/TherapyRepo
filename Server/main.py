@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from dotenv import dotenv_values
 from pymongo import MongoClient
+from fastapi.middleware.cors import CORSMiddleware
+
 from routes.routes import router as book_router
 from routes.user_route import router as user_router
 from routes.login import router as login_router
@@ -10,6 +12,19 @@ from bson.codec_options import CodecOptions, UuidRepresentation
 config = dotenv_values(".env")
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",  # Your Next.js frontend
+    # Add other origins if needed
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 def startup_db_client():

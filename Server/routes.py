@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from typing import List
 from models import PatientExercise
-from client import get_database
+from database import get_database
 from models import Book, BookUpdate
 from datetime import date
 
@@ -40,9 +40,9 @@ async def addTrashData():
         createdAt=date(2023, 1, 1),
         updatedAt=date(2023, 1, 1)
     )
-    db = get_database
+    db = get_database()
     # Insert the document into MongoDB
-    item = await db['paitentExcercise'].insert_one(patient_exercise.dict())
+    item = await db['patientExercise'].insert_one(patient_exercise.dict())
     return item
 
 @router.get("/{id}", response_description="Get a single book by id", response_model=Book)

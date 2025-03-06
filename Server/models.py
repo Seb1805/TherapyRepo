@@ -67,8 +67,8 @@ class User(BaseModel):
                 "specialties": ["specialty1", "specialty2"],
                 "services": ["service1", "service2"],
                 "active": True,
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
         
@@ -100,8 +100,8 @@ class UserUpdate(BaseModel):
                 "specialties": ["specialty1", "specialty2"],
                 "services": ["service1", "service2"],
                 "active": True,
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         } 
          
@@ -138,8 +138,8 @@ class Patient(BaseModel):
                 "journal": {},
                 "appointments": ["appointment1", "appointment2"],
                 "exercises": ["exercise1", "exercise2"],
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -175,8 +175,8 @@ class PatientUpdate(BaseModel):
                 "journal": {},
                 "appointments": ["appointment1", "appointment2"],
                 "exercises": ["exercise1", "exercise2"],
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -200,15 +200,15 @@ class JournalEntry(BaseModel):
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "therapistId": "therapist123",
-                "datetime": "2023-01-01",
+                "datetime": "2023-01-01T00:00:00",
                 "type": "initial",
                 "notes": "Patient shows improvement...",
                 "diagnosis": "Diagnosis details...",
                 "treatment": "Treatment details...",
                 "treatmentPlan": "Treatment plan details...",
                 "exerciseRecommendations": ["exercise1", "exercise2"],
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
         
@@ -230,15 +230,15 @@ class JournalEntryUpdate(BaseModel):
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "therapistId": "therapist123",
-                "datetime": "2023-01-01",
+                "datetime": "2023-01-01T00:00:00",
                 "type": "initial",
                 "notes": "Patient shows improvement...",
                 "diagnosis": "Diagnosis details...",
                 "treatment": "Treatment details...",
                 "treatmentPlan": "Treatment plan details...",
                 "exerciseRecommendations": ["exercise1", "exercise2"],
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -259,10 +259,10 @@ class JournalDocument(BaseModel):
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "type": "pdf",
                 "filename": "document.pdf",
-                "uploadDate": "2023-01-01",
+                "uploadDate": "2023-01-01T00:00:00",
                 "path": "/documents/document.pdf",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -282,10 +282,10 @@ class JournalDocumentUpdate(BaseModel):
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "type": "pdf",
                 "filename": "document.pdf",
-                "uploadDate": "2023-01-01",
+                "uploadDate": "2023-01-01T00:00:00",
                 "path": "/documents/document.pdf",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -327,8 +327,8 @@ class Appointment(BaseModel):
                 "notes": "Appointment notes...",
                 "reminder": {},
                 "invoiceItemId": "invoiceItem123",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
     
@@ -368,8 +368,8 @@ class AppointmentUpdate(BaseModel):
                 "notes": "Appointment notes...",
                 "reminder": {},
                 "invoiceItemId": "invoiceItem123",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
         
@@ -400,8 +400,8 @@ class GroupClass(BaseModel):
                 "room": "Room 2",
                 "schedule": {},
                 "participants": [{}],
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -431,8 +431,8 @@ class GroupClassUpdate(BaseModel):
                 "room": "Room 2",
                 "schedule": {},
                 "participants": [{}],
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }        
 
@@ -467,8 +467,8 @@ class Invoice(BaseModel):
                 "insurance": {},
                 "items": [{}],
                 "notes": "Invoice notes...",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
         
@@ -502,8 +502,8 @@ class InvoiceUpdate(BaseModel):
                 "insurance": {},
                 "items": [{}],
                 "notes": "Invoice notes...",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -534,8 +534,8 @@ class Exercise(BaseModel):
                 "imageUrl": "http://example.com/image.jpg",
                 "videoUrl": "http://example.com/video.mp4",
                 "createdBy": "therapist123",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -565,8 +565,8 @@ class ExerciseUpdate(BaseModel):
                 "imageUrl": "http://example.com/image.jpg",
                 "videoUrl": "http://example.com/video.mp4",
                 "createdBy": "therapist123",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -599,11 +599,11 @@ class PatientExercise(BaseModel):
                 "journalEntryId": "journalEntry123",
                 "assignedBy": "therapist123",
                 "assignedByName": "John Doe",
-                "assignedDate": "2023-01-01",
+                "assignedDate": "2023-01-01T00:00:00",
                 "prescription": {},
                 "notes": "Exercise notes...",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -634,11 +634,11 @@ class PatientExerciseUpdate(BaseModel):
                 "journalEntryId": "journalEntry123",
                 "assignedBy": "therapist123",
                 "assignedByName": "John Doe",
-                "assignedDate": "2023-01-01",
+                "assignedDate": "2023-01-01T00:00:00",
                 "prescription": {},
                 "notes": "Exercise notes...",
-                "createdAt": "2023-01-01",
-                "updatedAt": "2023-01-01"
+                "createdAt": "2023-01-01T00:00:00",
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -667,7 +667,7 @@ class ClinicSettings(BaseModel):
                 "vatExempt": False,
                 "businessHours": [{}],
                 "services": ["service1", "service2"],
-                "updatedAt": "2023-01-01"
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 
@@ -696,7 +696,7 @@ class ClinicSettingsUpdate(BaseModel):
                 "vatExempt": False,
                 "businessHours": [{}],
                 "services": ["service1", "service2"],
-                "updatedAt": "2023-01-01"
+                "updatedAt": "2023-01-01T00:00:00"
             }
         }
 

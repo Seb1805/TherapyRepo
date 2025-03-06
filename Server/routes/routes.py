@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Body, Request, Response, HTTPException, status
+from fastapi import APIRouter, Body, Request, Response, HTTPException, status,Depends
 from fastapi.encoders import jsonable_encoder
 from typing import List
 from models import PatientExercise
 from database import get_database
 from models import Book, BookUpdate
 from datetime import datetime
+from dependencies import get_current_user
+from models import User
 
 router = APIRouter()
 
@@ -24,7 +26,7 @@ def list_books(request: Request):
     return books
 
 @router.get("/skrald")
-async def addTrashData():
+async def addTrashData(current_user: User = Depends(get_current_user)):
     # Create an instance of PatientExercise
     patient_exercise = PatientExercise(
         patientId="patient123",

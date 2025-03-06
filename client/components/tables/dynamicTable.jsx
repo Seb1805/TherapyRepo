@@ -33,7 +33,7 @@ export function DynamicTable({
     return (
       <>
         {headerLayout.map((propertyName, index, rows) => {
-          if (index + 1 === rows.length)
+          if (index + 1 === rows.length && !utils)
             return (
               <TableHead key={propertyName + index} className="text-right">
                 {Capitalize(propertyName.replace(/([A-Z])/g, " $1").trim())}
@@ -57,7 +57,7 @@ export function DynamicTable({
     return data.map((dataEntity, index) => (
       <TableRow key={index}>
         {dataLayout.map((selectedProperty, index, rows) => {
-          if (index + 1 === rows.length)
+          if (index + 1 === rows.length && !utils)
             return (
               <TableCell key={selectedProperty + index} className="text-right">
                 {dataEntity[selectedProperty]}

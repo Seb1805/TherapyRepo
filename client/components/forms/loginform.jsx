@@ -88,12 +88,21 @@ export default function LoginForm() {
       const response = await fetch("http://localhost:8000/auth/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({
+        body: new URLSearchParams({
           username: data.email,
           password: data.password,
         }),
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   "allow-origin" : '*'
+
+        // },
+        // body: JSON.stringify({
+        //   username: data.email,
+        //   password: data.password,
+        // }),
       });
 
       if (!response.ok) {

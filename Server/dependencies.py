@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status,Request
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 
-SECRET = "your-secret-key"
+SECRET = "min-hemmelige-nøgle" 
 ALGORITHM = "HS256"
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

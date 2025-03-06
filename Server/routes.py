@@ -4,7 +4,7 @@ from typing import List
 from models import PatientExercise
 from database import get_database
 from models import Book, BookUpdate
-from datetime import date
+from datetime import datetime
 
 router = APIRouter()
 
@@ -34,16 +34,18 @@ async def addTrashData():
         journalEntryId="journalEntry123",
         assignedBy="therapist123",
         assignedByName="John Doe",
-        assignedDate=date(2023, 1, 1),
+        assignedDate=datetime(2023, 1, 1),
         prescription={},
         notes="Exercise notes...",
-        createdAt=date(2023, 1, 1),
-        updatedAt=date(2023, 1, 1)
+        createdAt=datetime(2023, 1, 1),
+        updatedAt=datetime(2023, 1, 1)
     )
-    db = get_database()
+    db = get_database()  # Call the function to get the database object
     # Insert the document into MongoDB
-    item = await db['patientExercise'].insert_one(patient_exercise.dict())
-    return item
+    result = await db['patientExercise'].insert_one(patient_exercise.dict(by_alias=True))
+    # Extract the inserted ID
+    inserted_id = result.inserted_id
+    return {"inserted_id": str(inserted_id)}
 
 @router.get("/{id}", response_description="Get a single book by id", response_model=Book)
 def find_book(id: str, request: Request):

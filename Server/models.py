@@ -2,7 +2,7 @@
 import uuid
 from typing import Optional, List, Dict
 from pydantic import BaseModel, Field
-from datetime import date
+from datetime import datetime
 
 #------------- Example from the documentation - for reference -------------
 class Book(BaseModel):
@@ -50,8 +50,8 @@ class User(BaseModel):
     specialties: List[str]
     services: List[str]
     active: bool
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -83,8 +83,8 @@ class UserUpdate(BaseModel):
     specialties: Optional[List[str]]
     services: Optional[List[str]]
     active: Optional[bool]
-    createdAt: date # Update this correctly
-    updatedAt: date # Update this correctly
+    createdAt: datetime # Update this correctly
+    updatedAt: datetime # Update this correctly
     
     class Config:
         allow_population_by_field_name = True
@@ -119,8 +119,8 @@ class Patient(BaseModel):
     journal: Dict
     appointments: List[str]
     exercises: List[str]
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -156,8 +156,8 @@ class PatientUpdate(BaseModel):
     journal: Dict
     appointments: List[str]
     exercises: List[str]
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -184,15 +184,15 @@ class PatientUpdate(BaseModel):
 class JournalEntry(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     therapistId: str
-    date: date
+    date: datetime
     type: str
     notes: str
     diagnosis: str
     treatment: str
     treatmentPlan: str
     exerciseRecommendations: List[str]
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -200,7 +200,7 @@ class JournalEntry(BaseModel):
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "therapistId": "therapist123",
-                "date": "2023-01-01",
+                "datetime": "2023-01-01",
                 "type": "initial",
                 "notes": "Patient shows improvement...",
                 "diagnosis": "Diagnosis details...",
@@ -214,15 +214,15 @@ class JournalEntry(BaseModel):
         
 class JournalEntryUpdate(BaseModel):
     therapistId: str
-    date: date
+    datetime: datetime
     type: str
     notes: str
     diagnosis: str
     treatment: str
     treatmentPlan: str
     exerciseRecommendations: List[str]
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -230,7 +230,7 @@ class JournalEntryUpdate(BaseModel):
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "therapistId": "therapist123",
-                "date": "2023-01-01",
+                "datetime": "2023-01-01",
                 "type": "initial",
                 "notes": "Patient shows improvement...",
                 "diagnosis": "Diagnosis details...",
@@ -247,10 +247,10 @@ class JournalDocument(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     type: str
     filename: str
-    uploadDate: date
+    uploadDate: datetime
     path: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -270,10 +270,10 @@ class JournalDocumentUpdate(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     type: str
     filename: str
-    uploadDate: date
+    uploadDate: datetime
     path: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -298,16 +298,16 @@ class Appointment(BaseModel):
     patientInfo: Dict
     therapistInfo: Dict
     type: str
-    startTime: date
-    endTime: date
+    startTime: datetime
+    endTime: datetime
     duration: int
     room: str
     status: str
     notes: str
     reminder: Dict
     invoiceItemId: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -339,16 +339,16 @@ class AppointmentUpdate(BaseModel):
     patientInfo: Dict
     therapistInfo: Dict
     type: str
-    startTime: date
-    endTime: date
+    startTime: datetime
+    endTime: datetime
     duration: int
     room: str
     status: str
     notes: str
     reminder: Dict
     invoiceItemId: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -384,8 +384,8 @@ class GroupClass(BaseModel):
     room: str
     schedule: Dict
     participants: List[Dict]
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -415,8 +415,8 @@ class GroupClassUpdate(BaseModel):
     room: str
     schedule: Dict
     participants: List[Dict]
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -449,8 +449,8 @@ class Invoice(BaseModel):
     insurance: Dict
     items: List[Dict]
     notes: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -484,8 +484,8 @@ class InvoiceUpdate(BaseModel):
     insurance: Dict
     items: List[Dict]
     notes: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -518,8 +518,8 @@ class Exercise(BaseModel):
     imageUrl: str
     videoUrl: str
     createdBy: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -549,8 +549,8 @@ class ExerciseUpdate(BaseModel):
     imageUrl: str
     videoUrl: str
     createdBy: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -572,7 +572,8 @@ class ExerciseUpdate(BaseModel):
 
 #PatientExercise
 class PatientExercise(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    #id: str = Field(default_factory=uuid.uuid4, alias="_id")
+    #id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     patientId: str
     patientInfo: Dict
     exerciseId: str
@@ -580,11 +581,11 @@ class PatientExercise(BaseModel):
     journalEntryId: str
     assignedBy: str
     assignedByName: str
-    assignedDate: date
+    assignedDate: datetime
     prescription: Dict
     notes: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -615,11 +616,11 @@ class PatientExerciseUpdate(BaseModel):
     journalEntryId: str
     assignedBy: str
     assignedByName: str
-    assignedDate: date
+    assignedDate: datetime
     prescription: Dict
     notes: str
-    createdAt: date
-    updatedAt: date
+    createdAt: datetime
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -651,7 +652,7 @@ class ClinicSettings(BaseModel):
     vatExempt: bool
     businessHours: List[Dict]
     services: List[str]
-    updatedAt: date
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True
@@ -680,7 +681,7 @@ class ClinicSettingsUpdate(BaseModel):
     vatExempt: bool
     businessHours: List[Dict]
     services: List[str]
-    updatedAt: date
+    updatedAt: datetime
 
     class Config:
         allow_population_by_field_name = True

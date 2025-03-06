@@ -5,17 +5,22 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 
 from dotenv import load_dotenv
+from bson.codec_options import CodecOptions, UuidRepresentation
 
 load_dotenv()  # take environment variables from .env.
-
 def get_database():
-   connection_string = os.getenv("ATLAS_URI")
-   client = AsyncIOMotorClient(connection_string)
+    connection_string = os.getenv("ATLAS_URI")
+    client = AsyncIOMotorClient(connection_string, uuidRepresentation='standard')
+    database = client.get_database("journalease", codec_options=CodecOptions(uuid_representation=UuidRepresentation.STANDARD))
+    return database
+# def get_database():
+#    connection_string = os.getenv("ATLAS_URI")
+#    client = AsyncIOMotorClient(connection_string)
 
-   database = client.journalease
+#    database = client.journalease
    
-   return database
-   # Provide the mongodb atlas url to connect python to mongodb using pymongo
+#    return database
+#    # Provide the mongodb atlas url to connect python to mongodb using pymongo
    # CONNECTION_STRING = "mongodb+srv://user:pass@cluster.mongodb.net/myFirstDatabase"
  
    # # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient

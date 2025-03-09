@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { CalendarDay } from "./calendar-day"
 import { events } from "./calendar-with-scheduler"
 import { Capitalize } from "@/lib/utils";
+import CalendarAddEventDialog from "./calendar-add-event-dialog";
 
 
 export function Calendar({ selectedDate, onSelectDate }) {
@@ -17,12 +18,17 @@ export function Calendar({ selectedDate, onSelectDate }) {
   const daysOfWeek = ["Man", "Tirs", "Ons", "Tors", "Fre", "Lør", "Søn"]
   const days = []
 
-  const handlePreviousMonth = () => {
+  function handlePreviousMonth() {
     setCurrentMonth(subMonths(currentMonth, 1))
   }
 
-  const handleNextMonth = () => {
+  function handleNextMonth() {
     setCurrentMonth(addMonths(currentMonth, 1))
+  }
+
+  function HandleToday() {
+    onSelectDate(() => new Date())
+    setCurrentMonth(() => new Date())
   }
 
   
@@ -57,10 +63,9 @@ export function Calendar({ selectedDate, onSelectDate }) {
 
   function CalendarDaysCalculation(daysFromMonth, dateCalculateMissingDays, dayToCountFrom, currentMonth = true ) {
     for (let i = 1; i <= daysFromMonth; i++) {
-      let day = dayToCountFrom + i;
+      const day = dayToCountFrom + i;
 
-      let date = dateCalculateMissingDays
-      date.setDate(day)
+      const date = new Date(dateCalculateMissingDays.getFullYear(), dateCalculateMissingDays.getMonth(), day)
       
       const dayEvents = events.filter((event) => isSameDay(event.date, date))
       const isSelected = isSameDay(date, selectedDate)
@@ -87,7 +92,8 @@ export function Calendar({ selectedDate, onSelectDate }) {
       <section className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">{Capitalize(format(currentMonth, "MMMM yyyy", {locale: da}))}</h2>
         <div className="flex gap-2">
-          <Button variant="outline"  onClick={() => setCurrentMonth(new Date())}>I dag</Button>
+          <CalendarAddEventDialog selectedDate={selectedDate} />
+          <Button variant="outline"  onClick={HandleToday}>I dag</Button>
           <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
             <ChevronLeft className="h-4 w-4" />
           </Button>

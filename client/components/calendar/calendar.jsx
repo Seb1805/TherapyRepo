@@ -13,6 +13,7 @@ import CalendarAddEventDialog from "./calendar-add-event-dialog";
 
 
 export function Calendar({ selectedDate, onSelectDate }) {
+  const [reservationData, setReservationData] = useState({})
   const [currentMonth, setCurrentMonth] = useState(new Date())
 
   const daysOfWeek = ["Man", "Tirs", "Ons", "Tors", "Fre", "Lør", "Søn"]
@@ -90,16 +91,18 @@ export function Calendar({ selectedDate, onSelectDate }) {
   return (
     <div className="w-full">
       <section className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">{Capitalize(format(currentMonth, "MMMM yyyy", {locale: da}))}</h2>
-        <div className="flex gap-2">
-          <CalendarAddEventDialog selectedDate={selectedDate} />
-          <Button variant="outline"  onClick={HandleToday}>I dag</Button>
-          <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon" onClick={handleNextMonth}>
-            <ChevronRight className="h-4 w-4" />
-          </Button>
+        <h2 className="text-xl font-semibold whitespace-nowrap">{Capitalize(format(currentMonth, "MMMM yyyy", {locale: da}))}</h2>
+        <div className="flex justify-end flex-wrap md:flex-nowrap gap-2">
+          <CalendarAddEventDialog selectedDate={selectedDate} newReservation reservationData={reservationData} changeReservationData={setReservationData} />
+          <div className="flex gap-2">
+            <Button variant="outline"  onClick={HandleToday}>I dag</Button>
+            <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="icon" onClick={handleNextMonth}>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </section>
 

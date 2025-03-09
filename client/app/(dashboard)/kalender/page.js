@@ -2,8 +2,10 @@ import { CalendarWithScheduler } from "@/components/calendar/calendar-with-sched
 
 export default function Kalender() {
   return (
-    <div className="container py-4">
-      <CalendarWithScheduler />
+    <div className="flex justify-center">
+      <div className="container py-4">
+        <CalendarWithScheduler />
+      </div>
     </div>
   )
 }

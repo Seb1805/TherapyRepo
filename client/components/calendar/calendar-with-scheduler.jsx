@@ -80,7 +80,7 @@ export function CalendarWithScheduler() {
   const [selectedDate, setSelectedDate] = useState(new Date())
 
   return (
-    <div className={cn("grid gap-6", "lg:grid-cols-[1fr_350px]")}>
+    <div className={cn("grid gap-6", "lg:grid-cols-[2fr_minmax(400px,_1fr)]")}>
       <div className="border rounded-lg p-4 shadow-sm">
         <Calendar selectedDate={selectedDate} onSelectDate={setSelectedDate} />
       </div>

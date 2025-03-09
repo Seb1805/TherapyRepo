@@ -1,79 +1,106 @@
-// "use client";
-// import { useState } from "react";
-// import { useForm } from "react-hook-form";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
+"use client";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-// export default function LoginForm() {
-//   const form = useForm({
-//     defaultValues: {
-//       email: '', 
-//       password: ''
-//     },
-//     mode: "onSubmit",
-//     reValidateMode: "onSubmit"
-//   })
+export default function LoginForm() {
+  const form = useForm({
+    defaultValues: {
+      email: '', 
+      password: ''
+    },
+    mode: "onSubmit",
+    reValidateMode: "onSubmit"
+  })
 
-//   function onSubmit(values) {
-//     console.log(values);
-//   }
+  async function onSubmit(data) {
+    try {
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          username: data.email,
+          password: data.password,
+        })
+      });
 
-//   return (
-//     <div className="flex flex-col gap-6">
-//     <Form {...form}>
-//       <form
-//         onSubmit={form.handleSubmit(onSubmit)}  className="flex flex-col gap-6"
-//       >
-//         <FormField
-//           control={form.control}
-//           name="email"
-//           render={({ field }) => (
-//             <FormItem className="grid gap-2">
-//               <FormLabel>Email</FormLabel>
-//               <FormControl>
-//                 <Input placeholder="m@example.com" type="email" {...field} />
-//               </FormControl>
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
 
-//               <FormMessage />
-//             </FormItem>
-//           )}
-//         />
+      const result = await response.json();
+      localStorage.setItem("access_token", result.access_token);
+      localStorage.setItem("refresh_token", result.refresh_token);
 
-//         <FormField
-//           control={form.control}
-//           name="password"
-//           rules={{
-//             minLength: {
-//               value: 8,
-//               message: "password must be atleast 8 characters long"
-//             }
-//           }}
-//           render={({ field }) => (
-//             <FormItem className="grid gap-2">
-//               <FormLabel>Password</FormLabel>
-//               <FormControl>
-//                 <Input type="password" {...field} />
-//               </FormControl>
+      // Redirect or update UI as needed
+      console.log("Login successful", result);
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  }
 
-//               <FormMessage />
-//             </FormItem>
-//           )}
-//         />
+  return (
+    <div className="flex flex-col gap-6">
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}  className="flex flex-col gap-6"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="grid gap-2">
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="m@example.com" type="email" {...field} />
+              </FormControl>
 
-//         <Button type="submit">Login</Button>
-//       </form>
-//     </Form>
-//     </div>
-//   );
-// }
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          rules={{
+            required: "Password must be atleast 8 characters long.",
+            minLength: {
+              value: 8,
+              message: "Password must be atleast 8 characters long."
+            }
+          }}
+          render={({ field }) => (
+            <FormItem className="grid gap-2">
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">Login</Button>
+      </form>
+    </Form>
+    </div>
+  );
+}
+
+
+/*
 "use client";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -136,3 +163,5 @@ export default function LoginForm() {
     </form>
   );
 }
+
+*/

@@ -65,14 +65,19 @@ async def delete_user(id: str, request: Request, response: Response):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Book with ID {id} not found")
 
 @router.get("/{id}", response_description="Get a single user by id", response_model=User)
-def find_user(id: str, request: Request):
-    if (user := request.app.database["users"].find_one({"_id": id})) is not None:
-        return user
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Book with ID {id} not found")
+async def find_user(id: str, request: Request):
+       # appointment = await request.app.database["appointments"].find_one({"_id": appointment_id})
+    user = await request.app.database["users"].find_one({"_id": id})
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {id} not found")
+    return user 
+
 
 @router.get("/", response_description="List all users", response_model=List[User])
-def list_users(request: Request):
-    users = list(request.app.database["users"].find(limit=100))
+async def list_users(request: Request):
+        #appointments = await request.app.database["appointments"].find().to_list(length=100)
+
+    users = await request.app.database["users"].find().to_list(length=100)
     return users
 
 # @router.get("/", response_description="List all users", response_model=List[User])

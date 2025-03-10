@@ -9,6 +9,7 @@ from routes.user_route import router as user_router
 from routes.login import router as login_router
 from routes.patient_route import router as patient_router
 from routes.invoice_route import router as invoice_router
+from routes.journalentry_route import router as journalentry_router
 
 
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -46,3 +47,5 @@ app.include_router(book_router, tags=["books"], prefix="/book")
 app.include_router(user_router,tags=["users"],prefix="/user")
 app.include_router(login_router, tags=["auth"], prefix="/auth")
 app.include_router(patient_router,tags=["patients"],prefix="/patient")
+app.include_router(invoice_router,tags=["invoices"],prefix="/invoice")
+app.include_router(journalentry_router,tags=["journal_entries"],prefix="/journal_entry")

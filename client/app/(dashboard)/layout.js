@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset>
-            <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear">
+            <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear border-b-1 border-b-gray-400/40">
               <div className="flex gap-x-2 px-4">
                 <SidebarTrigger className="-ml-1" />
               </div>

@@ -19,10 +19,7 @@ export default function CalendarAddEventDialog({selectedDate, newReservation = f
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
+          <DialogTitle>Tilføj Reservation</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
 

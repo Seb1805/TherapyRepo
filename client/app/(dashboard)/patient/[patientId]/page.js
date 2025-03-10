@@ -1,9 +1,10 @@
 'use client'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams, usePathname } from 'next/navigation'
 
 export default function PatientData() {
   const {patientId} = useParams()
+  const [userdata, setUserData] = useState()
 
   useEffect(() => {
 
@@ -15,6 +16,10 @@ export default function PatientData() {
             patientId: patientId,
           })
         })
+
+        if (response.ok) {
+          setUserData(() => response.data)
+        }
       } catch (error) {
         
       }
@@ -23,6 +28,31 @@ export default function PatientData() {
     console.log(patientId);
   }, [patientId])
   return (
-    <div>page</div>
+    <div>
+      <h1>firstname lastname</h1>
+      <section className="flex">
+        <div>
+          <div className="flex flex-nowrap">
+            <label className="whitespace-nowrap">address</label>
+          </div>
+          <div>
+            <label className="whitespace-nowrap">telefon nr.</label>
+          </div>
+          <div>
+          <label className="whitespace-nowrap">email</label>
+          </div>
+        </div>
+        <div>
+          <div>
+            <label className="whitespace-nowrap">CPR nr.</label>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        journal
+        journal notes
+      </section>
+    </div>
   )
 }

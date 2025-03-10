@@ -64,6 +64,25 @@ async def delete_user(id: str, request: Request, response: Response):
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Book with ID {id} not found")
 
+@router.get("/{id}", response_description="Get a single user by id", response_model=User)
+def find_user(id: str, request: Request):
+    if (user := request.app.database["users"].find_one({"_id": id})) is not None:
+        return user
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Book with ID {id} not found")
+
+@router.get("/", response_description="List all users", response_model=List[User])
+def list_users(request: Request):
+    users = list(request.app.database["users"].find(limit=100))
+    return users
+
+# @router.get("/", response_description="List all users", response_model=List[User])
+# def list_users(request: Request):
+#     users = list(request.app.database["users"].find_all())
+#     return users
+
+
+
+
 #No hash
 # @router.post("/", response_description="Create a new user", status_code=status.HTTP_201_CREATED, response_model=User)
 # async def create_user(request: Request, user: User = Body(...)):
@@ -74,8 +93,3 @@ async def delete_user(id: str, request: Request, response: Response):
 #     )
 
 #     return created_user
-
-# @router.get("/", response_description="List all books", response_model=List[Book])
-# def list_books(request: Request):
-#     books = list(request.app.database["books"].find(limit=100))
-#     return books

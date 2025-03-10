@@ -7,6 +7,16 @@ from models import JournalEntry, JournalEntryUpdate
 
 router = APIRouter()
 
+    # # Update the patient's journal
+    # patient_id = journal_entry_data["patientId"]
+    # update_result = await request.app.database["patients"].update_one(
+    #     {"_id": patient_id},
+    #     {"$push": {"journal.entries": created_journal_entry["_id"]}}
+    # )
+
+    # if update_result.modified_count == 0:
+    #     raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
+
 @router.post("/", response_description="Create a new journal entry", status_code=status.HTTP_201_CREATED, response_model=JournalEntry)
 async def create_journal_entry(request: Request, journal_entry: JournalEntry = Body(...)):
     journal_entry_data = jsonable_encoder(journal_entry)

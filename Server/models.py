@@ -50,7 +50,7 @@ class User(BaseModel):
     specialties: List[str]
     services: List[str]
     active: bool
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -119,7 +119,7 @@ class Patient(BaseModel):
     journal: Dict
     appointments: List[str]
     exercises: List[str]
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime = Field(default_factory=datetime.utcnow)
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -188,7 +188,7 @@ class JournalEntry(BaseModel):
     treatment: str
     treatmentPlan: str
     exerciseRecommendations: List[str]
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -246,7 +246,7 @@ class JournalDocument(BaseModel):
     filename: str
     uploadDate: datetime
     path: str
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -303,7 +303,7 @@ class Appointment(BaseModel):
     notes: str
     reminder: Dict
     invoiceItemId: str
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -381,7 +381,7 @@ class GroupClass(BaseModel):
     room: str
     schedule: Dict
     participants: List[Dict]
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -446,7 +446,7 @@ class Invoice(BaseModel):
     insurance: Dict
     items: List[Dict]
     notes: str
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -515,7 +515,7 @@ class Exercise(BaseModel):
     imageUrl: str
     videoUrl: str
     createdBy: str
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -581,7 +581,7 @@ class PatientExercise(BaseModel):
     assignedDate: datetime
     prescription: Dict
     notes: str
-    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:

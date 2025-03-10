@@ -20,8 +20,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Terapi App",
+  title: {
+    template: "%s | Terapi App",
+    default: 'Terapi App'
+  },
   description: "Made by Sebastian & Frank",
+  metadataBase: new URL('http://localhost:3000')
 };
 
 export default function RootLayout({ children }) {

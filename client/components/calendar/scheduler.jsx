@@ -29,7 +29,7 @@ export function Scheduler({ selectedDate, events }) {
   }
 
   return (
-    <div className="relative overflow-y-auto h-[90%]">
+    <div className="relative overflow-y-auto lg:h-[93%] h-[60dvh]">
       {sortedEvents.length === 0 ? (
         <div className="text-center py-10 text-muted-foreground">No events scheduled for this day</div>
       ) : (

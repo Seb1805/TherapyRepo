@@ -50,8 +50,8 @@ class User(BaseModel):
     specialties: List[str]
     services: List[str]
     active: bool
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -84,7 +84,7 @@ class UserUpdate(BaseModel):
     services: Optional[List[str]]
     active: Optional[bool]
     createdAt: datetime # Update this correctly
-    updatedAt: datetime # Update this correctly
+    updatedAt: datetime = Field(default_factory=datetime.utcnow) # Update this correctly
     
     class Config:
         allow_population_by_field_name = True
@@ -119,7 +119,7 @@ class Patient(BaseModel):
     journal: Dict
     appointments: List[str]
     exercises: List[str]
-    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime = Field(default_factory=datetime.utcnow)
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -188,8 +188,8 @@ class JournalEntry(BaseModel):
     treatment: str
     treatmentPlan: str
     exerciseRecommendations: List[str]
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -219,7 +219,7 @@ class JournalEntryUpdate(BaseModel):
     treatmentPlan: str
     exerciseRecommendations: List[str]
     createdAt: datetime
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -246,8 +246,8 @@ class JournalDocument(BaseModel):
     filename: str
     uploadDate: datetime
     path: str
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -270,7 +270,7 @@ class JournalDocumentUpdate(BaseModel):
     uploadDate: datetime
     path: str
     createdAt: datetime
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -303,8 +303,8 @@ class Appointment(BaseModel):
     notes: str
     reminder: Dict
     invoiceItemId: str
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -345,7 +345,7 @@ class AppointmentUpdate(BaseModel):
     reminder: Dict
     invoiceItemId: str
     createdAt: datetime
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -381,8 +381,8 @@ class GroupClass(BaseModel):
     room: str
     schedule: Dict
     participants: List[Dict]
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -413,7 +413,7 @@ class GroupClassUpdate(BaseModel):
     schedule: Dict
     participants: List[Dict]
     createdAt: datetime
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -446,8 +446,8 @@ class Invoice(BaseModel):
     insurance: Dict
     items: List[Dict]
     notes: str
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -482,7 +482,7 @@ class InvoiceUpdate(BaseModel):
     items: List[Dict]
     notes: str
     createdAt: datetime
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -515,8 +515,8 @@ class Exercise(BaseModel):
     imageUrl: str
     videoUrl: str
     createdBy: str
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -547,7 +547,7 @@ class ExerciseUpdate(BaseModel):
     videoUrl: str
     createdBy: str
     createdAt: datetime
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -581,8 +581,8 @@ class PatientExercise(BaseModel):
     assignedDate: datetime
     prescription: Dict
     notes: str
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow) datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -617,7 +617,7 @@ class PatientExerciseUpdate(BaseModel):
     prescription: Dict
     notes: str
     createdAt: datetime
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -649,7 +649,7 @@ class ClinicSettings(BaseModel):
     vatExempt: bool
     businessHours: List[Dict]
     services: List[str]
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -678,7 +678,7 @@ class ClinicSettingsUpdate(BaseModel):
     vatExempt: bool
     businessHours: List[Dict]
     services: List[str]
-    updatedAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True

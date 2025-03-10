@@ -3,10 +3,14 @@ from dotenv import dotenv_values
 from pymongo import MongoClient
 from fastapi.middleware.cors import CORSMiddleware
 
+#Routes
 from routes.routes import router as book_router
 from routes.user_route import router as user_router
 from routes.login import router as login_router
 from routes.patient_route import router as patient_router
+from routes.invoice_route import router as invoice_router
+
+
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson.codec_options import CodecOptions, UuidRepresentation
 

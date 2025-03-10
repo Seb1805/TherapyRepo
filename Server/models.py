@@ -119,14 +119,13 @@ class Patient(BaseModel):
     journal: Dict
     appointments: List[str]
     exercises: List[str]
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
         schema_extra = {
             "example": {
-                "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "journalNumber": "JN123456",
                 "firstName": "Jane",
                 "lastName": "Doe",
@@ -136,10 +135,8 @@ class Patient(BaseModel):
                 "insurance": {},
                 "consents": {},
                 "journal": {},
-                "appointments": ["appointment1", "appointment2"],
-                "exercises": ["exercise1", "exercise2"],
-                "createdAt": "2023-01-01T00:00:00",
-                "updatedAt": "2023-01-01T00:00:00"
+                "appointments": [],
+                "exercises": [],
             }
         }
 
@@ -156,8 +153,8 @@ class PatientUpdate(BaseModel):
     journal: Dict
     appointments: List[str]
     exercises: List[str]
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         allow_population_by_field_name = True
@@ -214,7 +211,7 @@ class JournalEntry(BaseModel):
         
 class JournalEntryUpdate(BaseModel):
     therapistId: str
-    datetime: datetime
+    date: datetime
     type: str
     notes: str
     diagnosis: str
@@ -230,7 +227,7 @@ class JournalEntryUpdate(BaseModel):
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "therapistId": "therapist123",
-                "datetime": "2023-01-01T00:00:00",
+                "date": "2023-01-01T00:00:00",
                 "type": "initial",
                 "notes": "Patient shows improvement...",
                 "diagnosis": "Diagnosis details...",

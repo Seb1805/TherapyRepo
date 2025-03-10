@@ -10,6 +10,9 @@ from routes.login import router as login_router
 from routes.patient_route import router as patient_router
 from routes.invoice_route import router as invoice_router
 from routes.journalentry_route import router as journalentry_router
+from routes.appointment_route import router as appointment_router
+from routes.service_route import router as service_router
+from routes.excercise_route import router as excercise_router
 
 
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -49,3 +52,7 @@ app.include_router(login_router, tags=["auth"], prefix="/auth")
 app.include_router(patient_router,tags=["patients"],prefix="/patient")
 app.include_router(invoice_router,tags=["invoices"],prefix="/invoice")
 app.include_router(journalentry_router,tags=["journal_entries"],prefix="/journal_entry")
+app.include_router(appointment_router,tags=["appointments"],prefix="/appointment")
+app.include_router(service_router,tags=["services"],prefix="/service")
+app.include_router(excercise_router,tags=["excercises"],prefix="/excercise")
+

@@ -100,9 +100,7 @@ export default function Economy() {
         overwriteHeaders={[
           "invoiceNumber",
           "status",
-          
-          "totalAmount",
-          
+          "amounts.totalAmount",
         ]}
       />
     </div>

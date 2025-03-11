@@ -24,13 +24,16 @@ export function DynamicTable({
     if (overwriteHeaders.length > 0) {
       headerData = overwriteHeaders;
     }
-
-    return headerData;
+  
+    return headerData.map(header => {
+      const keys = header.split(".");
+      return keys[keys.length - 1];
+    });
   }
 
   function GenerateHeaders() {
     let headerLayout = OverwriteLayout();
-
+  
     return (
       <>
         {headerLayout.map((propertyName, index, rows) => {
@@ -54,20 +57,26 @@ export function DynamicTable({
 
   function GenerateRows() {
     let dataLayout = OverwriteLayout();
-
+  
     return data.map((dataEntity, index) => (
       <TableRow key={index}>
         {dataLayout.map((selectedProperty, index, rows) => {
+          const keys = overwriteHeaders[index].split(".");
+          let value = dataEntity;
+          keys.forEach(key => {
+            value = value[key];
+          });
+  
           if (index + 1 === rows.length && !utils)
             return (
               <TableCell key={selectedProperty + index} className="text-right">
-                {dataEntity[selectedProperty]}
+                {value}
               </TableCell>
             );
           else
             return (
               <TableCell key={selectedProperty + index}>
-                {dataEntity[selectedProperty]}
+                {value}
               </TableCell>
             );
         })}
@@ -93,13 +102,19 @@ export function DynamicTable({
 
   function CalculateTotal(columns) {
     return columns.reduce((totals, column) => {
-      totals[column] = data.reduce((total, item) => total + parseFloat(item[column] || 0), 0);
+      const keys = column.split(".");
+      totals[column] = data.reduce((total, item) => {
+        let value = item;
+        keys.forEach(key => {
+          value = value[key];
+        });
+        return total + parseFloat(value || 0);
+      }, 0);
       return totals;
     }, {});
   }
-
   const totals = CalculateTotal(sumColumns);
-
+  
   function DeleteItem(id, name) {
     if (confirm(`Er du sikker du vil slette ${name}?`) === true) {
       console.log("deleted");
@@ -114,19 +129,19 @@ export function DynamicTable({
       </TableHeader>
       <TableBody>{GenerateRows()}</TableBody>
       {showFooter && sumColumns.length > 0 && (
-        <TableFooter>
-          {Object.keys(totals).map((column, index) => (
-            <TableRow key={index}>
-              <TableCell colSpan={Object.keys(data[0]).length - 1}>
-                Total for {Capitalize(column.replace(/([A-Z])/g, " $1").trim())}
-              </TableCell>
-              <TableCell className="text-right">
-                ${totals[column].toFixed(2)}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableFooter>
-      )}
+  <TableFooter>
+    {Object.keys(totals).map((column, index) => (
+      <TableRow key={index}>
+        <TableCell colSpan={Object.keys(data[0]).length - 1}>
+          Total for {Capitalize(column.split(".").pop().replace(/([A-Z])/g, " $1").trim())}
+        </TableCell>
+        <TableCell className="text-right">
+          ${totals[column].toFixed(2)}
+        </TableCell>
+      </TableRow>
+    ))}
+  </TableFooter>
+)}
     </Table>
   ) : (
     <p>cannot fetch data</p>

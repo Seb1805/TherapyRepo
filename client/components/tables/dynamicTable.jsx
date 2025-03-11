@@ -17,7 +17,8 @@ export function DynamicTable({
   showFooter = false,
   overwriteHeaders = [],
   utils = false,
-}) {
+  sumColumns = ""
+}){
   function OverwriteLayout() {
     let headerData = Object.keys(data[0]);
     if (overwriteHeaders.length > 0) {
@@ -90,6 +91,16 @@ export function DynamicTable({
     ));
   }
 
+  function CalculateTotal(columns) {
+    const columnArray = columns.split(",");
+    return columnArray.reduce((totals, column) => {
+      totals[column] = data.reduce((total, item) => total + parseFloat(item[column] || 0), 0);
+      return totals;
+    }, {});
+  }
+
+  const totals = CalculateTotal(sumColumns);
+
   function DeleteItem(id, name) {
     if (confirm(`Er du sikker du vil slette ${name}?`) === true) {
       console.log("deleted");
@@ -103,14 +114,18 @@ export function DynamicTable({
         <TableRow>{GenerateHeaders()}</TableRow>
       </TableHeader>
       <TableBody>{GenerateRows()}</TableBody>
-      {showFooter && (
+      {showFooter && sumColumns && (
         <TableFooter>
-          <TableRow>
-            <TableCell colSpan={Object.keys(data[0]).length - 1}>
-              Total
-            </TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
+          {Object.keys(totals).map((column, index) => (
+            <TableRow key={index}>
+              <TableCell colSpan={Object.keys(data[0]).length - 1}>
+                Total for {Capitalize(column.replace(/([A-Z])/g, " $1").trim())}
+              </TableCell>
+              <TableCell className="text-right">
+                ${totals[column].toFixed(2)}
+              </TableCell>
+            </TableRow>
+          ))}
         </TableFooter>
       )}
     </Table>

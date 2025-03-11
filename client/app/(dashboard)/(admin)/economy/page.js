@@ -95,8 +95,8 @@ export default function Economy() {
       <DynamicTable
         data={invoices}
         showFooter
-        //sumColumns="salary,bonus" // Specify the columns to sum
-        sumColumns="totalAmount"
+        //sumColumns={["salary", "bonus"]} // Specify the columns to sum
+        sumColumns={["totalAmount"]}
         overwriteHeaders={[
           "invoice",
           "paymentStatus",

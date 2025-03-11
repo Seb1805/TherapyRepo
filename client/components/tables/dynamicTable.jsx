@@ -17,8 +17,8 @@ export function DynamicTable({
   showFooter = false,
   overwriteHeaders = [],
   utils = false,
-  sumColumns = ""
-}){
+  sumColumns = []
+}) {
   function OverwriteLayout() {
     let headerData = Object.keys(data[0]);
     if (overwriteHeaders.length > 0) {
@@ -92,8 +92,7 @@ export function DynamicTable({
   }
 
   function CalculateTotal(columns) {
-    const columnArray = columns.split(",");
-    return columnArray.reduce((totals, column) => {
+    return columns.reduce((totals, column) => {
       totals[column] = data.reduce((total, item) => total + parseFloat(item[column] || 0), 0);
       return totals;
     }, {});
@@ -114,7 +113,7 @@ export function DynamicTable({
         <TableRow>{GenerateHeaders()}</TableRow>
       </TableHeader>
       <TableBody>{GenerateRows()}</TableBody>
-      {showFooter && sumColumns && (
+      {showFooter && sumColumns.length > 0 && (
         <TableFooter>
           {Object.keys(totals).map((column, index) => (
             <TableRow key={index}>

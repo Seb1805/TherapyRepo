@@ -96,11 +96,11 @@ export default function Economy() {
         data={invoices}
         showFooter
         //sumColumns={["salary", "bonus"]} // Specify the columns to sum
-        sumColumns={["totalAmount"]}
+        sumColumns={["amounts.totalAmount"]}
         overwriteHeaders={[
-          "invoice",
-          "paymentStatus",
-          "paymentMethod",
+          "invoiceNumber",
+          "status",
+          
           "totalAmount",
           
         ]}

@@ -13,7 +13,7 @@ from routes.journalentry_route import router as journalentry_router
 from routes.appointment_route import router as appointment_router
 from routes.service_route import router as service_router
 from routes.excercise_route import router as excercise_router
-
+from routes.clinic_route import router as clinic_router
 
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson.codec_options import CodecOptions, UuidRepresentation
@@ -55,4 +55,5 @@ app.include_router(journalentry_router,tags=["journal_entries"],prefix="/journal
 app.include_router(appointment_router,tags=["appointments"],prefix="/appointment")
 app.include_router(service_router,tags=["services"],prefix="/service")
 app.include_router(excercise_router,tags=["excercises"],prefix="/excercise")
+app.include_router(clinic_router,tags=["clnics"], prefix="/clinic")
 

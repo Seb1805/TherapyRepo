@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Request, Response, HTTPException, status
+from fastapi import APIRouter, Body, Request, Response, HTTPException, status,Depends
 from fastapi.encoders import jsonable_encoder
 from typing import List
 from models import PatientExercise
@@ -6,6 +6,10 @@ from database import get_database
 from models import User, UserUpdate
 from datetime import datetime
 import bcrypt
+from .login import SECRET, ALGORITHM, oauth2_scheme
+from bson import ObjectId
+import jwt
+
 
 
 
@@ -78,6 +82,20 @@ async def list_users(request: Request):
         #appointments = await request.app.database["appointments"].find().to_list(length=100)
 
     users = await request.app.database["users"].find().to_list(length=100)
+    return users
+
+
+@router.get("/users_by_clinic", response_description="List all users by clinic", response_model=List[User])
+async def list_users_by_clinic(request: Request, token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET, algorithms=[ALGORITHM])
+        clinic_id: str = payload.get("clinicId")
+        if clinic_id is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+
+    users = await request.app.database["users"].find({"clinicId": ObjectId(clinic_id)}).to_list(length=100)
     return users
 
 # @router.get("/", response_description="List all users", response_model=List[User])

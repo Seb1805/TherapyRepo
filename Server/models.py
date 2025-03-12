@@ -3,6 +3,8 @@ import uuid
 from typing import Optional, List, Dict
 from pydantic import BaseModel, Field
 from datetime import datetime
+from bson import ObjectId
+
 
 #------------- Example from the documentation - for reference -------------
 class Book(BaseModel):
@@ -12,8 +14,10 @@ class Book(BaseModel):
     synopsis: str = Field(...)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "title": "Don Quixote",
@@ -28,7 +32,8 @@ class BookUpdate(BaseModel):
     synopsis: Optional[str]
 
     class Config:
-        schema_extra = {
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "title": "Don Quixote",
                 "author": "Miguel de Cervantes",
@@ -50,12 +55,14 @@ class User(BaseModel):
     specialties: List[str]
     services: List[str]
     active: bool
-    createdAt: datetime = Field(default_factory=datetime.utcnow) 
+    clinicId: uuid.UUID
+    createdAt: datetime = Field(default_factory=datetime.utcnow)
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "email": "user@example.com",
@@ -67,6 +74,7 @@ class User(BaseModel):
                 "specialties": ["specialty1", "specialty2"],
                 "services": ["service1", "service2"],
                 "active": True,
+                "clinicId": "37fe48e0-2304-4f08-af13-269eecfb8ffb",
                 "createdAt": "2023-01-01T00:00:00",
                 "updatedAt": "2023-01-01T00:00:00"
             }
@@ -83,12 +91,14 @@ class UserUpdate(BaseModel):
     specialties: Optional[List[str]]
     services: Optional[List[str]]
     active: Optional[bool]
-    createdAt: datetime # Update this correctly
-    updatedAt: datetime = Field(default_factory=datetime.utcnow) # Update this correctly
-    
+    clinicId: Optional[ObjectId]
+    createdAt: datetime
+    updatedAt: datetime = Field(default_factory=datetime.utcnow)
+
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "email": "user@example.com",
@@ -100,10 +110,11 @@ class UserUpdate(BaseModel):
                 "specialties": ["specialty1", "specialty2"],
                 "services": ["service1", "service2"],
                 "active": True,
+                "clinicId": "60d5f9b4f1f6e4b30b46c325",
                 "createdAt": "2023-01-01T00:00:00",
                 "updatedAt": "2023-01-01T00:00:00"
             }
-        } 
+        }
          
 #Patient
 class Patient(BaseModel):
@@ -123,8 +134,9 @@ class Patient(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "journalNumber": "JN123456",
                 "firstName": "Jane",
@@ -157,8 +169,9 @@ class PatientUpdate(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "journalNumber": "JN123456",
@@ -192,8 +205,9 @@ class JournalEntry(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "therapistId": "therapist123",
@@ -222,8 +236,9 @@ class JournalEntryUpdate(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "therapistId": "therapist123",
@@ -250,8 +265,9 @@ class JournalDocument(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "type": "pdf",
@@ -273,8 +289,9 @@ class JournalDocumentUpdate(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "type": "pdf",
@@ -307,8 +324,9 @@ class Appointment(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "patientId": "patient123",
@@ -348,8 +366,9 @@ class AppointmentUpdate(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "patientId": "patient123",
@@ -385,8 +404,9 @@ class GroupClass(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "name": "Yoga Class",
@@ -416,8 +436,9 @@ class GroupClassUpdate(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "name": "Yoga Class",
@@ -450,8 +471,9 @@ class Invoice(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "invoiceNumber": "INV123456",
@@ -485,8 +507,9 @@ class InvoiceUpdate(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "invoiceNumber": "INV123456",
@@ -519,8 +542,9 @@ class Exercise(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "name": "Push-up",
@@ -550,8 +574,9 @@ class ExerciseUpdate(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "name": "Push-up",
@@ -585,8 +610,9 @@ class PatientExercise(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "patientId": "patient123",
@@ -620,8 +646,9 @@ class PatientExerciseUpdate(BaseModel):
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "patientId": "patient123",
@@ -649,11 +676,13 @@ class ClinicSettings(BaseModel):
     vatExempt: bool
     businessHours: List[Dict]
     services: List[str]
+    createdAt: datetime = Field(default_factory=datetime.utcnow)
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        arbitrary_types_allowed = True
+        populate_by_name = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "clinicName": "Health Clinic",
@@ -678,11 +707,13 @@ class ClinicSettingsUpdate(BaseModel):
     vatExempt: bool
     businessHours: List[Dict]
     services: List[str]
+    createdAt: datetime 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        arbitrary_types_allowed = True
+        populate_by_name = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "clinicName": "Health Clinic",
@@ -703,7 +734,8 @@ class BusinessHour(BaseModel):
     close: str
 
     class Config:
-        schema_extra = {
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "day": 1,
                 "open": "08:00",
@@ -719,8 +751,9 @@ class Service(BaseModel):
     price: float
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        populate_by_name = True
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "clinicId": "clinic123",
@@ -736,7 +769,8 @@ class BusinessHour(BaseModel):
     close: str
 
     class Config:
-        schema_extra = {
+        arbitrary_types_allowed = True
+        json_schema_extra = {
             "example": {
                 "day": 1,
                 "open": "08:00",
@@ -752,8 +786,9 @@ class ServiceUpdate(BaseModel):
     price: float
 
     class Config:
-        allow_population_by_field_name = True
-        schema_extra = {
+        arbitrary_types_allowed = True
+        populate_by_name = True
+        json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "clinicId": "clinic123",

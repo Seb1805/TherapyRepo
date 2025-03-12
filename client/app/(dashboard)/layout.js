@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
-        <SidebarProvider>
+        <SidebarProvider style={{"--sidebar-width": "200px",}}>
           <AppSidebar />
           <SidebarInset>
             <header className="flex justify-between h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear border-b-1 border-b-gray-400/40">

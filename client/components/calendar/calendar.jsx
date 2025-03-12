@@ -10,6 +10,7 @@ import { CalendarDay } from "./calendar-day"
 import { events } from "./calendar-with-scheduler"
 import { Capitalize } from "@/lib/utils";
 import CalendarAddEventDialog from "./calendar-add-event-dialog";
+import FilterButton from "../dialog/filter-button";
 
 
 export function Calendar({ selectedDate, onSelectDate }) {
@@ -91,10 +92,11 @@ export function Calendar({ selectedDate, onSelectDate }) {
   return (
     <div className="w-full">
       <section className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold whitespace-nowrap">{Capitalize(format(currentMonth, "MMMM yyyy", {locale: da}))}</h2>
+        <h2 className="text-xl font-semibold whitespace-nowrap pr-2">{Capitalize(format(currentMonth, "MMMM yyyy", {locale: da}))}</h2>
         <div className="flex justify-end flex-wrap md:flex-nowrap gap-2">
           <CalendarAddEventDialog selectedDate={selectedDate} newReservation reservationData={reservationData} changeReservationData={setReservationData} />
           <div className="flex gap-2">
+            <FilterButton />
             <Button variant="outline"  onClick={HandleToday}>I dag</Button>
             <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
               <ChevronLeft className="h-4 w-4" />

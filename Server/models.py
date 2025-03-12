@@ -91,7 +91,7 @@ class UserUpdate(BaseModel):
     specialties: Optional[List[str]]
     services: Optional[List[str]]
     active: Optional[bool]
-    clinicId: Optional[ObjectId]
+    clinicId: Optional[uuid.UUID]
     createdAt: datetime
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 

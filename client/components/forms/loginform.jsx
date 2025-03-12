@@ -106,12 +106,17 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useApi } from "@/hooks/useApi";
 
 export default function LoginForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const api = useApi();
+  const router = useRouter();
 
   const onSubmit = async (data) => {
     try {
+
       const response = await fetch("http://localhost:8000/auth/login", {
         method: "POST",
         headers: {
@@ -142,6 +147,7 @@ export default function LoginForm() {
 
       // Redirect or update UI as needed
       console.log("Login successful", result);
+      router.push('/kalender');
     } catch (error) {
       console.error("Error logging in:", error);
     }

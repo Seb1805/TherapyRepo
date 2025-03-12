@@ -16,11 +16,18 @@ import {
 import FilterOption from "./filter-option";
 import { useEffect, useState } from "react";
 
-export default function FilterButton({data = [], selectedOptions = [], setSelectedOptions, min = 0, max = 999}) {
+export default function FilterButton({filterOptions = [], selectedOptions = [], setSelectedOptions, min = 0, max = 999, SubmitFilteredChanges}) {
+  const [selectedFilter, setSelectedFilter] = useState(selectedOptions)
 
-  useEffect(() => {
+  function HandleOptionChange(option, isChecked) {
+    if (isChecked) {
+      setSelectedFilter([...selectedFilter, option]);
+    } else {
+      setSelectedFilter(selectedFilter.filter(item => item !== option));
+    }
+  };
 
-  }, [])
+  
 
   return (
     <Sheet>
@@ -30,28 +37,25 @@ export default function FilterButton({data = [], selectedOptions = [], setSelect
       <SheetContent className="px-2">
         <SheetHeader>
           <SheetTitle>Filter</SheetTitle>
+          <SheetDescription>
+            Vælg de personer du vil se kalenderen over
+          </SheetDescription>
         </SheetHeader>
-
-        {data.map((entityOption) => {
-          <FilterOption onChecked={() => console.log("some check/uncheck function")}/>
-        })}
-        {/* <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div> */}
+        
+        <div className="py-4">
+          {filterOptions.map((option, index) => (
+            <FilterOption 
+              key={`filter-${index}`}
+              label={`${option.firstName} ${option.lastName}`}
+              checked={selectedFilter.includes(option)}
+              onChecked={(isChecked) => HandleOptionChange(option, isChecked)}
+            />
+          ))}
+        </div>
+        
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" onClick={() => SubmitFilteredChanges(selectedFilter)} >Save changes</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

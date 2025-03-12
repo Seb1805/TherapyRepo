@@ -1,12 +1,13 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { format } from "date-fns"
-import { da } from 'date-fns/locale';
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { da } from "date-fns/locale";
 
-import { Calendar } from "./calendar"
-import { Scheduler } from "./scheduler"
-import { Capitalize, cn } from "@/lib/utils"
+import { Calendar } from "./calendar";
+import { Scheduler } from "./scheduler";
+import { Capitalize, cn } from "@/lib/utils";
+import { useApi } from "@/hooks/useApi";
 
 // Enhanced sample events data with start and end times
 export const events = [
@@ -74,21 +75,68 @@ export const events = [
     endTime: "13:30",
     color: "bg-orange-500",
   },
-]
+];
 
 export function CalendarWithScheduler() {
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [usersData, setUsersData] = useState([]);
+  const [eventsData, setEventsData] = useState(events);
+  const api = useApi();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const userdata = await api.get("user");
+        setUsersData(() => userdata);
+        console.log(userdata);
+
+      } catch (error) {
+        console.log("Failed to fetch data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const appointmentData = await api.get("appointment");
+        // setEventsData(() => appointmentData)
+        console.log(appointmentData);
+
+      } catch (error) {
+        console.log("Failed to fetch data:", error);
+      }
+    }
+    fetchData();
+  }, [usersData]);
+
+  function SubmitFilteredChanges(selectedFilter) {
+    setFilteredItems(() => selectedFilter);
+  }
 
   return (
     <div className={cn("grid gap-6", "lg:grid-cols-[2fr_minmax(400px,_1fr)]")}>
       <div className="border rounded-lg p-4 shadow-sm">
-        <Calendar selectedDate={selectedDate} onSelectDate={setSelectedDate} />
+        <Calendar
+          events={eventsData}
+          selectedDate={selectedDate}
+          onSelectDate={setSelectedDate}
+          filterOptions={usersData}
+          filteredItems={filteredItems}
+          setFilteredItems={setFilteredItems}
+          SubmitFilteredChanges={SubmitFilteredChanges}
+        />
       </div>
       <div className="border rounded-lg p-4 shadow-sm">
-        <h2 className="text-xl font-semibold mb-4">{Capitalize(format(selectedDate, 'eee d. MMMM, yyyy', { locale: da }))}</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          {Capitalize(
+            format(selectedDate, "eee d. MMMM, yyyy", { locale: da })
+          )}
+        </h2>
         <Scheduler selectedDate={selectedDate} events={events} />
       </div>
     </div>
-  )
+  );
 }
-

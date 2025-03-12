@@ -19,6 +19,7 @@ import {
 import { FaRegAddressBook } from "react-icons/fa6";
 import { NavStandard } from "./nav-standard";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 // This is sample data.
 const data = {
@@ -52,9 +53,17 @@ const data = {
     },
   ],
 };
-export function AppSidebar({ ...props }) {
+export function AppSidebar() {
+  const router = useRouter();
+
+  function HandlerLogout() {
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
+    router.replace('/login')
+  }
+
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="w-full flex justify-center h-[30px]">
           <FaRegAddressBook className="h-full w-full" />
@@ -67,7 +76,7 @@ export function AppSidebar({ ...props }) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem >
-            <Button className="w-full justify-center">
+            <Button className="w-full justify-center" onClick={() => HandlerLogout()}>
               <span>
                 <LogOut className="ml-auto size-4" />
               </span>

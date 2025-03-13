@@ -9,6 +9,7 @@ import bcrypt
 from .login import SECRET, ALGORITHM, oauth2_scheme
 from bson import ObjectId
 import jwt
+from uuid import UUID
 
 
 
@@ -95,7 +96,14 @@ async def list_users_by_clinic(request: Request, token: str = Depends(oauth2_sch
     except jwt.PyJWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    users = await request.app.database["users"].find({"clinicId": ObjectId(clinic_id)}).to_list(length=100)
+    # Convert the clinic_id to UUID
+    try:
+        clinic_uuid = UUID(clinic_id)
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid UUID format")
+
+    # Query MongoDB using the UUID directly
+    users = await request.app.database["users"].find({"clinicId": clinic_uuid}).to_list(length=100)
     return users
 
 # @router.get("/", response_description="List all users", response_model=List[User])

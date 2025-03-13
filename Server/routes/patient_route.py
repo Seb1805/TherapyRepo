@@ -29,6 +29,35 @@ async def list_patients(request: Request):
     patients = await request.app.database["patients"].find().to_list(length=100)
     return patients
 
+class PatientFilter(BaseModel):
+    journalNumber: str | None = None
+    firstName: str | None = None
+    lastName: str | None = None
+    cpr: str | None = None
+#/patients/?cpr=120499-1849&firstname=morten
+@router.get("/", response_description="List patients matching filter", response_model=List[Patient])
+async def list_patients(
+    request: Request,
+    filter_params: PatientFilter = Depends()
+):
+    # Convert Pydantic model to MongoDB filter
+    mongo_filter = {k: v for k, v in filter_params.dict(exclude_none=True).items()}
+    
+    patients = await request.app.database["patients"].find(mongo_filter).to_list(length=100)
+    return patients
+#Post can be used with json body
+@router.post("/", response_description="List patients matching filter", response_model=List[Patient])
+async def list_patients(
+    request: Request,
+    filter_params: PatientFilter
+):
+    # Convert Pydantic model to MongoDB filter
+    mongo_filter = {k: v for k, v in filter_params.dict(exclude_none=True).items()}
+    
+    patients = await request.app.database["patients"].find(mongo_filter).to_list(length=100)
+    return patients
+
+
 @router.put("/{patient_id}", response_description="Update a patient", response_model=Patient)
 async def update_patient(patient_id: str, request: Request, patient: PatientUpdate = Body(...)):
     patient_data = jsonable_encoder(patient)

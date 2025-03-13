@@ -68,35 +68,57 @@
 "use client";
 
 import { DynamicTable } from "@/components/tables/dynamicTable";
+import { useApi } from "@/hooks/useApi";
 import React, { useEffect, useState } from "react";
 
 export default function Staff() {
   const [staff, setStaff] = useState([]);
+  const api= useApi()
 
   useEffect(() => {
-    fetch("http://localhost:8000/user")
-      .then(response => response.json())
-      .then(data => {
-        setStaff(data);
-      })
-      .catch(error => {
-        console.error("There was an error fetching the staff data!", error);
-      });
+    async function getUsers() {
+      try {
+        const userdata = await api.get("user");
+        setStaff(() => userdata);
+      } catch (error) {
+        throw new Error("fetching data failed");
+      }
+    }
+
+    getUsers()
+    // fetch("http://localhost:8000/user")
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     setStaff(data);
+    //   })
+    //   .catch(error => {
+    //     console.error("There was an error fetching the staff data!", error);
+    //   });
   }, []);
 
-  return (
-    <div>
-      <h1>Medarbejdere</h1>
-      <DynamicTable
-        data={staff}
-        overwriteHeaders={[
-          "email",
-          "role",
-          "firstName",
-          "lastName",
-          "phoneNumber"
-        ]}
-      />
-    </div>
-  );
+  if(api.loading) {
+    return (
+      <div>
+        test
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <h1>Medarbejdere</h1>
+        <DynamicTable
+          data={staff}
+          utils
+          overwriteHeaders={[
+            "email",
+            "role",
+            "firstName",
+            "lastName",
+            "phoneNumber"
+          ]}
+        />
+      </div>
+    );
+  }
+  
 }

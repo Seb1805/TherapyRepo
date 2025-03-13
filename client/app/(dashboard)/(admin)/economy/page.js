@@ -72,23 +72,45 @@
 "use client";
 
 import { DynamicTable } from "@/components/tables/dynamicTable";
+import { useApi } from "@/hooks/useApi";
 import React, { useEffect, useState } from "react";
 
 export default function Economy() {
   const [invoices, setInvoice] = useState([]);
+  const api = useApi()
 
   useEffect(() => {
-    fetch("http://localhost:8000/invoice")
-      .then(response => response.json())
-      .then(data => {
-        setInvoice(data);
-      })
-      .catch(error => {
-        console.error("There was an error fetching the staff data!", error);
-      });
+
+    async function getData() {
+      try {
+        const data = await api.get("invoice");
+        setInvoice(() => data);
+      } catch (error) {
+        throw new Error("fetching data failed");
+      }
+    }
+
+    getData()
+
+
+    // fetch("http://localhost:8000/invoice")
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     setInvoice(data);
+    //   })
+    //   .catch(error => {
+    //     console.error("There was an error fetching the staff data!", error);
+    //   });
   }, []);
 
   
+ if(api.loading) {
+  return (
+    <div>
+      Loading
+    </div>
+  )
+ } else {
   return (
     <div>
       <h1>økonomi</h1>
@@ -96,13 +118,15 @@ export default function Economy() {
         data={invoices}
         showFooter
         //sumColumns={["salary", "bonus"]} // Specify the columns to sum
-        sumColumns={["amounts.totalAmount"]}
+        sumColumns={["amounts.subtotal","amounts.totalAmount"]}
         overwriteHeaders={[
           "invoiceNumber",
           "status",
+          "amounts.subtotal",
           "amounts.totalAmount",
         ]}
       />
     </div>
   );
+ }
 }

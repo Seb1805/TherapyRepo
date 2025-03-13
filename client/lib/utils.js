@@ -8,3 +8,7 @@ export function cn(...inputs) {
 export function Capitalize(str = "") {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export function TlfSpacing(str = "") {
+  return str.replace(/(..)(..)(..)(..)/, '$1 $2 $3 $4');
+}

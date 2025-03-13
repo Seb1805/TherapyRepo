@@ -1,22 +1,25 @@
-import { useApi } from '@/hooks/useApi';
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Card, CardContent } from '../ui/card';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Capitalize, TlfSpacing } from '@/lib/utils';
 
-export default function PatientCard() {
-    const api = useApi()
-  
-    useEffect(() => {
-      async function getData() {
-        try {
-          const responseData = await api.get("user/users_by_clinic")
-          console.log(responseData);
-        } catch (error) {
-          console.log("Failed to fetch data:", error);
-        }
-      }
-
-      getData();
-    }, [])
+export default function PatientCard({patientData}) {
+  const router = useRouter()
+    
   return (
-    <div>patient-card</div>
+    <Link href={`/patient/${patientData._id}`}>
+    <Card>
+      <CardContent >
+        <div>
+          <h2 className="text-lg font-bold">{Capitalize(patientData.firstName)} {Capitalize(patientData.lastName)}</h2>
+          <p>Adresse: {patientData.contactInfo.address}, {patientData.contactInfo.city}</p>
+          <p>Tlf: {TlfSpacing(patientData.contactInfo.tlf)}</p>
+          <p>email: {patientData.contactInfo.email}</p>
+        </div>
+        <div></div>
+      </CardContent>
+    </Card>
+    </Link>
   )
 }

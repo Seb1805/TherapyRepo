@@ -196,7 +196,7 @@ export function DynamicTable({
                 return (<TableCell key={`footer-${index}`} className="font-medium col-span-1">Total</TableCell>)
               }
               return (
-                <TableCell key={`footer-${index}`} className={cn("", rows.length - 1 == index && "text-right")}>
+                <TableCell key={`footer-${index}`} className={cn("", (rows.length - 1 == index && !utils)&& "text-right")}>
                     {sumColumns.includes(Title) ? FlattenAndFindColumnValue(Title) : ""}
                 </TableCell>
               )
@@ -204,6 +204,8 @@ export function DynamicTable({
         
               
             })}
+
+            {utils && <TableCell></TableCell>}
           </TableRow>
         </TableFooter>
       )}

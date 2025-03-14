@@ -8,6 +8,8 @@ import {
 import { ThemeProvider } from "@/components/theme-provider/theme-provider"
 import { AppSidebar } from "@/components/sidebar/appsidebar";
 import { ModeThemeToggle } from "@/components/theme-button";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +31,13 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const route = useRouter()
+
+  useEffect(() => {
+    if(!localStorage.getItem('access_token') || !localStorage.getItem('refresh_token') ) {
+      route.replace('/login');
+    }
+  },[])
   return (
         <ThemeProvider
             attribute="class"

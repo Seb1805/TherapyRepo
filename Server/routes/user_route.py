@@ -69,13 +69,6 @@ async def delete_user(id: str, request: Request, response: Response):
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Book with ID {id} not found")
 
-@router.get("/{id}", response_description="Get a single user by id", response_model=User)
-async def find_user(id: str, request: Request):
-       # appointment = await request.app.database["appointments"].find_one({"_id": appointment_id})
-    user = await request.app.database["users"].find_one({"_id": id})
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {id} not found")
-    return user 
 
 
 @router.get("/", response_description="List all users", response_model=List[User])
@@ -98,13 +91,22 @@ async def list_users_by_clinic(request: Request, token: str = Depends(oauth2_sch
 
     # Convert the clinic_id to UUID
     try:
-        clinic_uuid = UUID(clinic_id)
+        clinic_uuid = clinic_id
     except ValueError:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid UUID format")
 
     # Query MongoDB using the UUID directly
     users = await request.app.database["users"].find({"clinicId": clinic_uuid}).to_list(length=100)
     return users
+
+
+@router.get("/{id}", response_description="Get a single user by id", response_model=User)
+async def find_user(id: str, request: Request):
+       # appointment = await request.app.database["appointments"].find_one({"_id": appointment_id})
+    user = await request.app.database["users"].find_one({"_id": id})
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {id} not found")
+    return user 
 
 # @router.get("/", response_description="List all users", response_model=List[User])
 # def list_users(request: Request):

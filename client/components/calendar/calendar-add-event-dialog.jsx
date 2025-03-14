@@ -43,7 +43,7 @@ export default function CalendarAddEventDialog({
 
   async function OnSubmit(data) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/appointment`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_DIFF_BACKEND_URL}/appointment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

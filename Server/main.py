@@ -23,6 +23,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",  # Your Next.js frontend
+    "*"
     # Add other origins if needed
 ]
 

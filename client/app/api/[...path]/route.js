@@ -1,16 +1,7 @@
-// app/api/[...path]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
-// Your API base URL
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = process.env.BACKEND_URL;
 
-const getAuthToken = () => {
-  // Localstorage only works on client side, this makes sure the token is only looked for on client side
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("access_token");
-  }
-  return null;
-};
 
 export async function GET(request) {
   return handleRequest(request, "GET");
@@ -38,10 +29,10 @@ async function handleRequest(request, method) {
   const headers = {
     "Content-Type": "application/json",
   };
-
-  const token = getAuthToken();
+  
+  const token = request.headers.get("Authorization");
   if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+    headers["Authorization"] = token;
   }
 
   let body = null;
@@ -55,14 +46,19 @@ async function handleRequest(request, method) {
       headers,
       body: body ? JSON.stringify(body) : null,
     });
-
-    const data = await response.json().catch(() => null);
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
+    const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
-    console.error(`API request failed: ${error}`);
+    console.error(`API request failed: ${error.message}`);
     return NextResponse.json(
-      { error: "Failed to fetch data from API" },
+      { error: `Failed to fetch data from API: ${error.message}` },
       { status: 500 }
     );
   }
+  
 }

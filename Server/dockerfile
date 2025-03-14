@@ -9,4 +9,4 @@ RUN pip install -r /app/requirements.txt
 
 COPY . .
 
-CMD ["fastapi", "run", "app/main.py", "--port", "8000"]
+CMD ["fastapi", "run", "main.py"]

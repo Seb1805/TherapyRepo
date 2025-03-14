@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Body, Request, HTTPException, status
+from fastapi import APIRouter, Body, Request, HTTPException, status, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import Response
 from typing import List
 from datetime import datetime
 from models import Patient, PatientUpdate
+from pydantic import BaseModel
 
 router = APIRouter()
 
@@ -16,6 +17,33 @@ async def create_patient(request: Request, patient: Patient = Body(...)):
     )
 
     return created_patient
+class PatientFilter(BaseModel):
+    journalNumber: str | None = None
+    firstName: str | None = None
+    lastName: str | None = None
+    cpr: str | None = None
+#/patients/?cpr=120499-1849&firstname=morten
+@router.get("/search", response_description="List patients matching filter", response_model=List[Patient])
+async def list_patients(
+    request: Request,
+    filter_params: PatientFilter = Depends()
+):
+    # Convert Pydantic model to MongoDB filter
+    mongo_filter = {k: v for k, v in filter_params.dict(exclude_none=True).items()}
+    #print(mongo_filter)
+    patients = await request.app.database["patients"].find(mongo_filter).to_list(length=100)
+    return patients
+#Post can be used with json body
+@router.post("/search", response_description="List patients matching filter", response_model=List[Patient])
+async def list_patients(
+    request: Request,
+    filter_params: PatientFilter
+):
+    # Convert Pydantic model to MongoDB filter
+    mongo_filter = {k: v for k, v in filter_params.dict(exclude_none=True).items()}
+    
+    patients = await request.app.database["patients"].find(mongo_filter).to_list(length=100)
+    return patients
 
 @router.get("/{patient_id}", response_description="Get a single patient", response_model=Patient)
 async def get_patient(patient_id: str, request: Request):
@@ -29,33 +57,7 @@ async def list_patients(request: Request):
     patients = await request.app.database["patients"].find().to_list(length=100)
     return patients
 
-class PatientFilter(BaseModel):
-    journalNumber: str | None = None
-    firstName: str | None = None
-    lastName: str | None = None
-    cpr: str | None = None
-#/patients/?cpr=120499-1849&firstname=morten
-@router.get("/", response_description="List patients matching filter", response_model=List[Patient])
-async def list_patients(
-    request: Request,
-    filter_params: PatientFilter = Depends()
-):
-    # Convert Pydantic model to MongoDB filter
-    mongo_filter = {k: v for k, v in filter_params.dict(exclude_none=True).items()}
-    
-    patients = await request.app.database["patients"].find(mongo_filter).to_list(length=100)
-    return patients
-#Post can be used with json body
-@router.post("/", response_description="List patients matching filter", response_model=List[Patient])
-async def list_patients(
-    request: Request,
-    filter_params: PatientFilter
-):
-    # Convert Pydantic model to MongoDB filter
-    mongo_filter = {k: v for k, v in filter_params.dict(exclude_none=True).items()}
-    
-    patients = await request.app.database["patients"].find(mongo_filter).to_list(length=100)
-    return patients
+
 
 
 @router.put("/{patient_id}", response_description="Update a patient", response_model=Patient)

@@ -131,7 +131,7 @@ export function DynamicTable({
             </div>
             <div
               className="p-1.5 cursor-pointer hover:bg-gray-500/20 rounded-full"
-              onClick={() => DeleteItem(dataEntity?.Id, dataEntity?.name)}
+              onClick={() => DeleteItem(dataEntity)}
             >
               <FaTrashAlt color="red" />
             </div>
@@ -156,8 +156,17 @@ export function DynamicTable({
   }
   const totals = CalculateTotal(sumColumns);
 
-  function DeleteItem(id, name) {
-    if (confirm(`Er du sikker du vil slette ${name}?`) === true) {
+  function DeleteItem(entity) {
+
+    function FindProperName() {
+      if(entity.firstName) {
+        return `${entity.firstName} ${entity.lastName}`
+      } else if (entity.name) return entity.name
+        else if (entity.title) return entity.title
+        else return entity.id
+    }
+
+    if (confirm(`Er du sikker du vil slette ${FindProperName()}?`) === true) {
       console.log("deleted");
     }
   }

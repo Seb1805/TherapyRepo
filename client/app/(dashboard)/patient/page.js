@@ -11,26 +11,24 @@ const filterSuggestions = [
   { label: "tlf", description: "tlf (eks. 25382917)" },
   { label: "email", description: "email" },
 ];
-
 export default function Patient() {
   const [patients, setPatients] = useState([]);
-  const [filter, setFilter] = useState({'cpr': '123456-1234'});
+  const [filter, setFilter] = useState({ cpr: "123456-1234" });
   const api = useApi();
 
   useEffect(() => {
     async function getData() {
       try {
-        // ændre til nye patient api der accepterer object filterering
         console.log(filter);
-        // const responseData = await api.post("patient/search", filter);
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/patient/search`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
           },
-          body: new URLSearchParams(filter),
+          body: JSON.stringify(filter),
         });
-        setPatients(() => response.data);
+        const responseData = await response.json();
+        setPatients(responseData);
       } catch (error) {
         console.log("Failed to fetch data:", error);
       }
@@ -43,8 +41,41 @@ export default function Patient() {
     console.log("Search Tekst uden key:", searchData.searchText);
     console.log("Filters:", searchData.filters);
 
-    setFilter(() => searchData.filters);
+    setFilter(searchData.filters);
   };
+// export default function Patient() {
+//   const [patients, setPatients] = useState([]);
+//   const [filter, setFilter] = useState({'cpr': '123456-1234'});
+//   const api = useApi();
+
+//   useEffect(() => {
+//     async function getData() {
+//       try {
+//         // ændre til nye patient api der accepterer object filterering
+//         console.log(filter);
+//         // const responseData = await api.post("patient/search", filter);
+//         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/patient/search`, {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/x-www-form-urlencoded",
+//           },
+//           body: new URLSearchParams(filter),
+//         });
+//         setPatients(() => response.data);
+//       } catch (error) {
+//         console.log("Failed to fetch data:", error);
+//       }
+//     }
+
+//     getData();
+//   }, [filter]);
+
+//   const handleSearch = (searchData) => {
+//     console.log("Search Tekst uden key:", searchData.searchText);
+//     console.log("Filters:", searchData.filters);
+
+//     setFilter(() => searchData.filters);
+//   };
 
   return (
     <div>

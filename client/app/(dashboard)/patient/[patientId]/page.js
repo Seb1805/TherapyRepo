@@ -22,6 +22,7 @@ export default function PatientData() {
       try {
         const responseData = await api.get(`patient/${patientId}`);
         setPatientData(() => responseData);
+        console.log(responseData);
       } catch (error) {
         console.log("Failed to fetch data:", error);
       }

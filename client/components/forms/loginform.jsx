@@ -34,6 +34,7 @@ export default function LoginForm() {
 
       // Redirect or update UI as needed
       console.log("Login successful", result);
+      console.log(result.access_token)
       router.push('/kalender');
     } catch (error) {
       console.error("Error logging in:", error);

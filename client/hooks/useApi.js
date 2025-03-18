@@ -22,7 +22,8 @@ export function useApi() {
       };
 
       if (method === 'POST') {
-        options.headers['Content-Type'] = "application/x-www-form-urlencoded"
+        //options.headers['Content-Type'] = "application/x-www-form-urlencoded"
+        options.headers['Content-Type'] = "application/json"
       }
       if (body && method !== 'GET') {
         options.body = JSON.stringify(body);

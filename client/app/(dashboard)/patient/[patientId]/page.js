@@ -13,7 +13,7 @@ export default function PatientData() {
   const [patientData, setPatientData] = useState({});
   const [addJournalButton, setAddJournalButton] = useState(false);
   const { register, handleSubmit, formState: { errors }} = useForm();
-  const route = useRouter()
+  const route = useRouter();
 
   const api = useApi();
 
@@ -31,48 +31,46 @@ export default function PatientData() {
     GetPatientData();
   }, [patientId]);
 
-
   async function Submitfunction(data) {
-    data = {...data, 
-      "therapistId": 'temp',
-      "patient": patientId, 
-      "datetime": new Date().toISOString(), 
-      "type": "initial", 
-      "notes": "",
-      "exerciseRecommendations": []
-    }
+    data = {
+      ...data,
+      therapistId: 'temp',
+      patient: patientId,
+      date: new Date().toISOString(),
+      type: "initial",
+      notes: "",
+      diagnosis: "test",
+      treatment: "test",
+      treatmentPlan: "Test",
+      exerciseRecommendations: ["exercise1", "exercise2"]
+    };
 
     console.log(data);
     try {
-      // const response = await api.post("journal_entry", data)
-      //   // .then(() => route.refresh());
-      
-      // if(!response.ok) {
-      //   console.log(`something went wrong: ${response.status}`);
-      // }
+      //console.log("Authorization:" `Bearer ${localStorage.getItem(`access_token`)}`);
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/journal_entry`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          //"Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem(`access_token`)}`
         },
-        body: new URLSearchParams(data),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
-        throw new Error(`reponse code: ${response.status}, error: ${response.statusText}`);
+        throw new Error(`response code: ${response.status}, error: ${response.statusText}`);
       }
     } catch (error) {
       console.log(`Error with submit: ${error}`);
     }
   }
 
-
   function ShowAddingJournal() {
     return (
       <div className="xl:col-span-1 xl:row-span-2 col-span-full mt-12 md:mt-0">
         {<JournalEntry Submitfunction={Submitfunction} />}
       </div>
-    )
+    );
   }
 
   if (api.loading) {

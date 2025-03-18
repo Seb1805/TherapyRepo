@@ -46,7 +46,6 @@ def create_refresh_token(data: dict, expires_delta: timedelta = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET, algorithm=ALGORITHM)
     return encoded_jwt
-
 @router.post("/login")
 async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
     user = await get_user_by_email(request, form_data.username)
@@ -65,6 +64,24 @@ async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends
         data={"sub": user["email"], "clinicId": str(user["clinicId"])}, expires_delta=refresh_token_expires
     )
     return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
+# @router.post("/login")
+# async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
+#     user = await get_user_by_email(request, form_data.username)
+#     if not user or not verify_password(form_data.password, user["password"]):
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Invalid credentials",
+#             headers={"WWW-Authenticate": "Bearer"},
+#         )
+#     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+#     refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+#     access_token = create_access_token(
+#         data={"sub": user["email"], "clinicId": str(user["clinicId"])}, expires_delta=access_token_expires
+#     )
+#     refresh_token = create_refresh_token(
+#         data={"sub": user["email"], "clinicId": str(user["clinicId"])}, expires_delta=refresh_token_expires
+#     )
+#     return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
 
 # @router.post("/login")
 # async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):

@@ -22,7 +22,8 @@ config = dotenv_values(".env")
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  # Your Next.js frontend
+    "http://localhost:3000",
+    "http://localhost:3000/",# Your Next.js frontend
     "*"
     # Add other origins if needed
 ]

@@ -211,7 +211,7 @@ class JournalEntry(BaseModel):
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",
                 "therapistId": "therapist123",
-                "datetime": "2023-01-01T00:00:00",
+                "date": "2023-01-01T00:00:00",
                 "type": "initial",
                 "notes": "Patient shows improvement...",
                 "diagnosis": "Diagnosis details...",

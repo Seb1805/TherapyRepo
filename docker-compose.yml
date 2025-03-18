@@ -4,9 +4,17 @@ services:
       context: ./server
       dockerfile: dockerfile
     container_name: terapeut-fastapi
-    command: sleep infinity
+    #command: sleep infinity
     ports:
       - "8000:8000"
+
+  terapeut-frontend:
+    build:
+      context: ./client
+      dockerfile: dockerfile
+    container_name: terapeut-nextjs
+    ports:
+      - '3000:3000'
 
 networks:
   default:

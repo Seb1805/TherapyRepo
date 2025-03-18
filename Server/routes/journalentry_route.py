@@ -24,11 +24,12 @@ router = APIRouter()
 async def create_journal_entry(request: Request, token: str = Depends(oauth2_scheme),  journal_entry: JournalEntry = Body(...)):
     #find the therapist that is adding the new journal_entry
     try:
-        payload = jwt.decode(token, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, SECRET, algorithms=[ALGORITHM])
         user_email: str = payload.get("sub")
         if user_email is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
     except jwt.PyJWTError:
+        print(payload)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
     user = await request.app.data["users"].find_one({"email": user_email})
@@ -46,9 +47,6 @@ async def create_journal_entry(request: Request, token: str = Depends(oauth2_sch
     created_journal_entry = await request.app.database["journal_entries"].find_one(
         {"_id": new_journal_entry.inserted_id}
     )
-
-    # add new journal_entry to the patient's journal list
-    patient = await request.app.database["patients"].find_one({"_id": patient_id})
     
     # Update the patient document using $push to add the journal entry
     await request.app.database["patients"].update_one(

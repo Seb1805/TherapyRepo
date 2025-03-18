@@ -27,9 +27,7 @@ async function handleRequest(request, method) {
 
   const apiUrl = `${API_BASE_URL}/${endpoint}${url.search}`;
 
-  const headers = {
-    "Content-Type": "application/json",
-  };
+  const headers = {};
 
   const token = request.headers.get("Authorization");
   if (token) {
@@ -39,6 +37,9 @@ async function handleRequest(request, method) {
   let body = null;
   if (method !== "GET" && method !== "HEAD") {
     body = await request.json().catch(() => null);
+    headers["Content-Type"] = "application/x-www-form-urlencoded"
+  } else {
+    headers["Content-Type"] = "application/json"
   }
 
   try {

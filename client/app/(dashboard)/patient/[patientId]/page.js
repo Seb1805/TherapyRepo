@@ -6,6 +6,7 @@ import { useApi } from "@/hooks/useApi";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import JournalEntry from "@/components/forms/journal_entry";
 
 export default function PatientData() {
   const { patientId } = useParams();
@@ -31,14 +32,34 @@ export default function PatientData() {
 
 
   async function Submitfunction(data) {
-    data = {...data, "patient": patientId}
+    data = {...data, 
+      "therapistId": 'temp',
+      "patient": patientId, 
+      "datetime": new Date().toISOString(), 
+      "type": "initial", 
+      "notes": "",
+      "exerciseRecommendations": []
+    }
+
+    console.log(data);
     try {
-      const response = await api.post("api/journal_entry", data);
+      // const response = await api.post("journal_entry", data)
+      //   // .then(() => route.refresh());
       
-      if(!response.ok) {
-        console.log(`something went wrong: ${response.status}`);
+      // if(!response.ok) {
+      //   console.log(`something went wrong: ${response.status}`);
+      // }
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/journal_entry`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`reponse code: ${response.status}, error: ${response.statusText}`);
       }
-      route.refresh()
     } catch (error) {
       console.log(`Error with submit: ${error}`);
     }
@@ -48,48 +69,8 @@ export default function PatientData() {
   function ShowAddingJournal() {
     return (
       <div className="xl:col-span-1 xl:row-span-2 col-span-full mt-12 md:mt-0">
-      <form
-        onSubmit={handleSubmit(Submitfunction)}
-        className="flex flex-col gap-3"
-      >
-        <div>
-          <label>diagnosis</label>
-          <Input {...register("diagnosis", { required: true })} />
-          {errors.email && (
-            <span className="text-red-600">This field is required</span>
-          )}
-        </div>
-
-        <div className="grid">
-          <label>notes</label>
-          <textarea />
-        </div>
-
-        <div className="">
-          <label>treatment</label>
-          <Input {...register("treatment", { required: true })} />
-          {errors.email && (
-            <span className="text-red-600">This field is required</span>
-          )}
-        </div>
-
-        <div className="">
-          <label>treatmentPlan</label>
-          <Input {...register("treatmentPlan", { required: true })} />
-          {errors.email && (
-            <span className="text-red-600">This field is required</span>
-          )}
-        </div>
-
-        <div className="">
-          <label>exerciseRecommendations</label>
-        </div>
-
-        <Button className="mt-4" type="submit">
-          Opret journal note
-        </Button>
-      </form>
-    </div>
+        {<JournalEntry Submitfunction={Submitfunction} />}
+      </div>
     )
   }
 

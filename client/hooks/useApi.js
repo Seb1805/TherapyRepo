@@ -21,6 +21,9 @@ export function useApi() {
         },
       };
 
+      if (method === 'POST') {
+        options.headers['Content-Type'] = "application/x-www-form-urlencoded"
+      }
       if (body && method !== 'GET') {
         options.body = JSON.stringify(body);
       }

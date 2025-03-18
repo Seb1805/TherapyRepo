@@ -14,15 +14,23 @@ const filterSuggestions = [
 
 export default function Patient() {
   const [patients, setPatients] = useState([]);
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({'cpr': '123456-1234'});
   const api = useApi();
 
   useEffect(() => {
     async function getData() {
       try {
         // ændre til nye patient api der accepterer object filterering
-        const responseData = await api.get("patient");
-        setPatients(() => responseData);
+        console.log(filter);
+        // const responseData = await api.post("patient/search", filter);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/patient/search`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams(filter),
+        });
+        setPatients(() => response.data);
       } catch (error) {
         console.log("Failed to fetch data:", error);
       }
@@ -50,7 +58,7 @@ export default function Patient() {
         <div className="w-full flex justify-center py-40">Loading</div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 my-3">
-          {patients.map((patient, index) => {
+          {patients?.map((patient, index) => {
             return (
               <PatientCard
                 key={`patient-card-${index}`}

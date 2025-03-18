@@ -50,10 +50,11 @@ async def create_journal_entry(request: Request, token: str = Depends(oauth2_sch
     # add new journal_entry to the patient's journal list
     patient = await request.app.database["patients"].find_one({"_id": patient_id})
     
-    # TODO: continue... i'm lost from here
-
-
-
+    # Update the patient document using $push to add the journal entry
+    await request.app.database["patients"].update_one(
+        {"_id": patient_id},
+        {"$push": {"journal": created_journal_entry}}
+    )
 
     return created_journal_entry
 

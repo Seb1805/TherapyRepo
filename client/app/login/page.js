@@ -1,10 +1,17 @@
 "use client";
 import LoginForm from "@/components/forms/loginform";
 import { Card, CardContent } from "@/components/ui/card";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Login() {
-  const form = useForm();
+  const  route = useRouter()
+
+  useEffect(() => {
+      if(localStorage.getItem("access_token") && localStorage.getItem('refresh_token')) {
+        route.replace('kalender')
+      }
+    },[])
 
   return (
     <div className="flex flex-col gap-6 min-h-svh w-full items-center justify-center p-6 md:p-10">

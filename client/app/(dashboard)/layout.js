@@ -1,3 +1,4 @@
+'use client'
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import {
@@ -8,6 +9,7 @@ import {
 import { ThemeProvider } from "@/components/theme-provider/theme-provider"
 import { AppSidebar } from "@/components/sidebar/appsidebar";
 import { ModeThemeToggle } from "@/components/theme-button";
+import LoginCheck from "@/components/login-check";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,16 +21,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: {
-    template: "%s | Terapi App",
-    default: 'Terapi App'
-  },
-  description: "Made by Sebastian & Frank",
-  metadataBase: new URL('http://localhost:3000')
-};
 
 export default function RootLayout({ children }) {
+  LoginCheck()
+
   return (
         <ThemeProvider
             attribute="class"

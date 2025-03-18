@@ -71,7 +71,6 @@ async def delete_user(id: str, request: Request, response: Response):
 
 
 
-
 @router.get("/", response_description="List all users", response_model=List[User])
 async def list_users(request: Request):
         #appointments = await request.app.database["appointments"].find().to_list(length=100)
@@ -89,17 +88,17 @@ async def list_users_by_clinic(request: Request, token: str = Depends(oauth2_sch
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
     except jwt.PyJWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-    # print(clinic_id)
-    # # Convert the clinic_id to UUID
-    # try:
-    #     #Doesnt need to be converted apprently
-    #     clinic_uuid = clinic_id
-    # except ValueError:
-    #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid UUID format")
+
+    # Convert the clinic_id to UUID
+    try:
+        clinic_uuid = clinic_id
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid UUID format")
 
     # Query MongoDB using the UUID directly
     users = await request.app.database["users"].find({"clinicId": clinic_id}).to_list(length=100)
     return users
+
 
 @router.get("/{id}", response_description="Get a single user by id", response_model=User)
 async def find_user(id: str, request: Request):

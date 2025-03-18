@@ -5,24 +5,32 @@ import { useApi } from "@/hooks/useApi";
 import { useEffect, useState } from "react";
 
 const filterSuggestions = [
-  { label: 'firstName', description: 'Filter by firstName' },
-  { label: 'lastName', description: 'Filter by lastName' },
-  { label: 'cpr', description: 'cpr (eks. 120499-2849)' },
-  { label: 'tlf', description: 'tlf (eks. 25382917)' },
-  { label: 'email', description: 'email' },
+  { label: "firstName", description: "Filter by firstName" },
+  { label: "lastName", description: "Filter by lastName" },
+  { label: "cpr", description: "cpr (eks. 120499-2849)" },
+  { label: "tlf", description: "tlf (eks. 25382917)" },
+  { label: "email", description: "email" },
 ];
 
 export default function Patient() {
   const [patients, setPatients] = useState([]);
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({'cpr': '123456-1234'});
   const api = useApi();
 
   useEffect(() => {
     async function getData() {
       try {
         // ændre til nye patient api der accepterer object filterering
-        const responseData = await api.get("patient");
-        setPatients(() => responseData);
+        console.log(filter);
+        // const responseData = await api.post("patient/search", filter);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/patient/search`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams(filter),
+        });
+        setPatients(() => response.data);
       } catch (error) {
         console.log("Failed to fetch data:", error);
       }
@@ -38,20 +46,28 @@ export default function Patient() {
     setFilter(() => searchData.filters);
   };
 
-  if (api.loading) {
-    return <p>loading</p>;
-  } else {
-    return (
-      <div>
-        <h1 className="text-2xl font-bold mb-4">Søg patienter</h1>
-        <SearchInput onSearch={handleSearch} filterSuggestions={filterSuggestions} />
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Søg patienter</h1>
+      <SearchInput
+        onSearch={handleSearch}
+        filterSuggestions={filterSuggestions}
+      />
 
+      {api.loading ? (
+        <div className="w-full flex justify-center py-40">Loading</div>
+      ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 my-3">
-          {patients.map((patient,index) => {
-            return <PatientCard key={`patient-card-${index}`} patientData={patient} />;
+          {patients?.map((patient, index) => {
+            return (
+              <PatientCard
+                key={`patient-card-${index}`}
+                patientData={patient}
+              />
+            );
           })}
         </div>
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }

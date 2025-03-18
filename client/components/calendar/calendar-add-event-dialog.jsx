@@ -43,14 +43,7 @@ export default function CalendarAddEventDialog({
 
   async function OnSubmit(data) {
     try {
-      const response = await fetch("http://localhost:8000/appointment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(register),
-      });
-
+      const response = api.post('appointment', data)
       if(response.ok) {
         setOpen((openState) => !openState);
       }

@@ -13,7 +13,7 @@ const filterSuggestions = [
 ];
 export default function Patient() {
   const [patients, setPatients] = useState([]);
-  const [filter, setFilter] = useState({ cpr: "123456-1234" });
+  const [filter, setFilter] = useState({});
   const api = useApi();
 
   useEffect(() => {
@@ -41,7 +41,9 @@ export default function Patient() {
     console.log("Search Tekst uden key:", searchData.searchText);
     console.log("Filters:", searchData.filters);
 
-    setFilter(searchData.filters);
+    let stringValuesToLower = Object.fromEntries(Object.entries(searchData.filters).map(([key, value]) => [key, typeof value == 'string' ? value.toLowerCase() : value]))
+
+    setFilter(stringValuesToLower);
   };
 // export default function Patient() {
 //   const [patients, setPatients] = useState([]);

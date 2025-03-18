@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-export default function JournalEntry({Submitfunction = () => {}}) {
+export default function JournalEntry({Submitfunction}) {
   const { register, handleSubmit, formState: { errors }} = useForm();
 
   return (

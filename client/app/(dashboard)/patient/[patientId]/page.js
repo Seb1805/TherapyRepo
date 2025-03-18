@@ -46,16 +46,23 @@ export default function PatientData() {
     };
 
     console.log(data);
+    console.log('test');
+      console.log(JSON.stringify(data));
     try {
+
+      // const response = await api.post('journal_entry', data)
+
       //console.log("Authorization:" `Bearer ${localStorage.getItem(`access_token`)}`);
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/journal_entry`, {
         method: "POST",
         headers: {
-          //"Content-Type": "application/json",
+          "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem(`access_token`)}`
         },
         body: JSON.stringify(data),
       });
+      
 
       if (!response.ok) {
         throw new Error(`response code: ${response.status}, error: ${response.statusText}`);

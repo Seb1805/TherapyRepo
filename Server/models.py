@@ -127,7 +127,7 @@ class Patient(BaseModel):
     emergencyContact: Dict
     insurance: Dict
     consents: Dict
-    journal: Dict
+    journal: List[Dict] = []
     appointments: List[str]
     exercises: List[str]
     createdAt: datetime = Field(default_factory=datetime.utcnow) 
@@ -162,7 +162,7 @@ class PatientUpdate(BaseModel):
     emergencyContact: Dict
     insurance: Dict
     consents: Dict
-    journal: Dict
+    journal: List[Dict] = []
     appointments: List[str]
     exercises: List[str]
     createdAt: datetime = Field(default_factory=datetime.utcnow)
@@ -194,7 +194,7 @@ class PatientUpdate(BaseModel):
 class JournalEntry(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     therapistId: str
-    date: datetime
+    date: datetime = Field(default_factory=datetime.utcnow)
     type: str
     notes: str
     diagnosis: str
@@ -207,6 +207,7 @@ class JournalEntry(BaseModel):
     class Config:
         populate_by_name = True
         arbitrary_types_allowed = True
+        extra = "allow"
         json_schema_extra = {
             "example": {
                 "_id": "066de609-b04a-4b30-b46c-32537c7f1f6e",

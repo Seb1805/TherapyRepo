@@ -111,7 +111,7 @@ export default function SearchInput({ onSearch, filterSuggestions = [{}] }) {
       </div>
       
       {showSuggestions && (
-        <div className="absolute z-10 w-full mt-1 --color-foreground border rounded-md shadow-lg">
+        <div className="absolute z-10 w-full mt-1 border rounded-md shadow-lg bg-(--color-background)">
           <div className="p-1 border-b text-sm font-medium text-gray-500">
             Filter by
           </div>

@@ -21,18 +21,16 @@ export function useApi() {
         },
       };
 
-      if (method === 'POST') {
-        //options.headers['Content-Type'] = "application/x-www-form-urlencoded"
-        options.headers['Content-Type'] = "application/json"
-      }
+      // if (method === 'POST') {
+      //   //options.headers['Content-Type'] = "application/x-www-form-urlencoded"
+      //   options.headers['Content-Type'] = "application/json"
+      // }
       if (body && method !== 'GET') {
-        options.body = JSON.stringify(body);
+        options["body"] = JSON.stringify(body);
       }
 
-      console.log(`/api/${endpoint}, ${options}`);
       // Call our Next.js API route - this ensures the token is added
       const response = await fetch(`/api/${endpoint}`, options);
-      console.log(`2: /api/${endpoint}, ${options}`);
 
       if (!response.ok) {
         const errorData = await response.text();

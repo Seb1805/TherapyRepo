@@ -80,7 +80,7 @@ export default function Patient() {
 //   };
 
   return (
-    <div>
+    <div className="px-2">
       <h1 className="text-2xl font-bold mb-4">Søg patienter</h1>
       <SearchInput
         onSearch={handleSearch}
@@ -90,7 +90,7 @@ export default function Patient() {
       {api.loading ? (
         <div className="w-full flex justify-center py-40">Loading</div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 my-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 my-6">
           {patients?.map((patient, index) => {
             return (
               <PatientCard

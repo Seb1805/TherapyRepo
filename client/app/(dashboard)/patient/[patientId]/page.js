@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Capitalize, TlfSpacing } from "@/lib/utils";
 import { useApi } from "@/hooks/useApi";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import JournalEntry from "@/components/forms/journal_entry";
 import JournalNotat from "@/components/patient/journal-notat";
@@ -13,7 +11,6 @@ export default function PatientData() {
   const { patientId } = useParams();
   const [patientData, setPatientData] = useState({});
   const [addJournalButton, setAddJournalButton] = useState(false);
-  const route = useRouter();
 
   const api = useApi();
 
@@ -30,44 +27,6 @@ export default function PatientData() {
 
     GetPatientData();
   }, [patientId]);
-
-  async function Submitfunction(data) {
-    data = {
-      ...data,
-      therapistId: 'temp',
-      patient: patientId,
-      date: new Date().toISOString(),
-      type: "initial",
-      notes: "",
-      diagnosis: "test",
-      treatment: "test",
-      treatmentPlan: "Test",
-      exerciseRecommendations: ["exercise1", "exercise2"]
-    };
-
-    try {
-
-      // const response = await api.post('journal_entry', data)
-
-      //console.log("Authorization:" `Bearer ${localStorage.getItem(`access_token`)}`);
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/journal_entry`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem(`access_token`)}`
-        },
-        body: JSON.stringify(data),
-      });
-      
-
-      if (!response.ok) {
-        throw new Error(`response code: ${response.status}, error: ${response.statusText}`);
-      }
-    } catch (error) {
-      console.log(`Error with submit: ${error}`);
-    }
-  }
 
   function ShowAddingJournal() {
     return (

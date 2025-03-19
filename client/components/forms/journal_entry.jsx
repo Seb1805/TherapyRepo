@@ -21,8 +21,6 @@ export default function JournalEntry({patientId}) {
 
       // const response = await api.post('journal_entry', data)
 
-      //console.log("Authorization:" `Bearer ${localStorage.getItem(`access_token`)}`);
-
       const response = await fetch(`/api/journal_entry`, {
         method: "POST",
         headers: {
@@ -36,8 +34,11 @@ export default function JournalEntry({patientId}) {
       if (!response.ok) {
         throw new Error(`response code: ${response.status}, error: ${response.statusText}`);
       }
+      if (response.ok) {
+        setAddJournalButton((value) => !value)
+      }
 
-      setAddJournalButton((value) => !value)
+      
     } catch (error) {
       console.log(`Error with submit: ${error}`);
     }

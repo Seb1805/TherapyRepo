@@ -45,12 +45,13 @@ export function CalendarDay({
           <div
             key={event.id}
             className={cn(
-              "text-xs px-2 py-0.5 rounded truncate",
-              event.color,
-              event.color.includes("yellow") || event.color.includes("green") ? "text-black" : "text-white",
+              "text-xs px-2 py-0.5 rounded bg-blue-600 truncate text-white",
+              // event.color,
+              // event.color.includes("yellow") || event.color.includes("green") ? "text-black" : "text-white",
             )}
           >
-            {event.title}
+            {/* {event.title} */}
+            {`${event.type} - ${event.patientInfo.firstName}`} 
           </div>
         ))}
         {hasMoreEvents && <div className="text-xs text-muted-foreground">+{events.length - maxEventsToShow} more</div>}

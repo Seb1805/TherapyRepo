@@ -7,12 +7,12 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import JournalEntry from "@/components/forms/journal_entry";
+import JournalNotat from "@/components/patient/journal-notat";
 
 export default function PatientData() {
   const { patientId } = useParams();
   const [patientData, setPatientData] = useState({});
   const [addJournalButton, setAddJournalButton] = useState(false);
-  const { register, handleSubmit, formState: { errors }} = useForm();
   const route = useRouter();
 
   const api = useApi();
@@ -45,9 +45,6 @@ export default function PatientData() {
       exerciseRecommendations: ["exercise1", "exercise2"]
     };
 
-    console.log(data);
-    console.log('test');
-      console.log(JSON.stringify(data));
     try {
 
       // const response = await api.post('journal_entry', data)
@@ -74,8 +71,8 @@ export default function PatientData() {
 
   function ShowAddingJournal() {
     return (
-      <div className="xl:col-span-1 xl:row-span-2 col-span-full mt-12 md:mt-0">
-        {<JournalEntry Submitfunction={Submitfunction} />}
+      <div className="xl:col-span-1 xl:row-span-2 col-span-2 mt-12 md:mt-0">
+        {<JournalEntry patientId={patientId} />}
       </div>
     );
   }
@@ -88,8 +85,8 @@ export default function PatientData() {
         <h1 className="text-3xl font-semibold">
           {Capitalize(patientData.firstName)} {Capitalize(patientData.lastName)}
         </h1>
-        <section className="grid xl:grid-cols-[1fr_1fr_1fr] md:grid-cols-[auto_1fr] grid-cols-1 py-3 gap-x-6 md:gap-y-12">
-          <div className="col-1">
+        <section className="grid grid-cols-1 md:grid-cols-[auto_1fr] xl:grid-cols-[1fr_1fr_1fr] py-3 gap-x-6 md:gap-y-12">
+          <div className="col-1 col-span-2 md:col-span-1">
             <div className="grid grid-cols-[100px_1fr]">
               <label className="whitespace-nowrap col-1">Adresse</label>
               <label className="whitespace-nowrap col-1">
@@ -133,7 +130,12 @@ export default function PatientData() {
           <section className="col-span-2 ">
             {!addJournalButton ? (<Button className="my-4" onClick={() => setAddJournalButton((value) => !value)}>Tilføj journal note</Button>) : (<></>)}
 
-            <h1>journal</h1> journal notes
+            <section className="max-h-[600px]">
+              <h1 className="text-xl mt-4 mb-1">Journal</h1>
+              {patientData.journal?.map((journalEntry,index) => {
+                return <JournalNotat key={`note-${index}`} journalEntry={journalEntry}/>
+              })}
+            </section>
           </section>
         </section>
       </div>

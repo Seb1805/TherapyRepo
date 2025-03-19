@@ -146,7 +146,7 @@ class Patient(BaseModel):
                 "emergencyContact": {},
                 "insurance": {},
                 "consents": {},
-                "journal": {},
+                "journal": [],
                 "appointments": [],
                 "exercises": [],
             }
@@ -182,7 +182,7 @@ class PatientUpdate(BaseModel):
                 "emergencyContact": {},
                 "insurance": {},
                 "consents": {},
-                "journal": {},
+                "journal": [],
                 "appointments": ["appointment1", "appointment2"],
                 "exercises": ["exercise1", "exercise2"],
                 "createdAt": "2023-01-01T00:00:00",

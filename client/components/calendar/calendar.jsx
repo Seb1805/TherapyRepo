@@ -107,7 +107,7 @@ export function Calendar({
         day
       );
 
-      const dayEvents = events.filter((event) => isSameDay(event.date, date));
+      const dayEvents = events.filter((event) => isSameDay(new Date(event.startTime), date));
       const isSelected = isSameDay(date, selectedDate);
       const dayOfWeek = getDay(date);
       const isMonday = dayOfWeek === 1;

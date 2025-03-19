@@ -4,6 +4,9 @@ from fastapi.responses import Response
 from typing import List
 from datetime import datetime
 from models import Appointment, AppointmentUpdate
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 router = APIRouter()
 
@@ -16,13 +19,12 @@ async def create_appointment(request: Request, appointment: Appointment = Body(.
     )
 
     return created_appointment
+@router.post("/users")
+async def list_patients( request: Request,  user_ids: List[dict]):
+    user_ids = [user["_id"] for user in user_ids]
 
-@router.get("/{appointment_id}", response_description="Get a single appointment", response_model=Appointment)
-async def get_appointment(appointment_id: str, request: Request):
-    appointment = await request.app.database["appointments"].find_one({"_id": appointment_id})
-    if appointment is None:
-        raise HTTPException(status_code=404, detail=f"Appointment with ID {appointment_id} not found")
-    return appointment
+    appointments = await request.app.database["appointments"].find({"therapistId": {"$in": user_ids}}).to_list(length=100)
+    return appointments
 
 @router.get("/", response_description="List all appointments", response_model=List[Appointment])
 async def list_appointments(request: Request):
@@ -61,3 +63,10 @@ async def get_appointments_between_dates(start_date: datetime, end_date: datetim
     }).to_list(length=100)
     
     return appointments
+
+@router.get("/{appointment_id}", response_description="Get a single appointment", response_model=Appointment)
+async def get_appointment(appointment_id: str, request: Request):
+    appointment = await request.app.database["appointments"].find_one({"_id": appointment_id})
+    if appointment is None:
+        raise HTTPException(status_code=404, detail=f"Appointment with ID {appointment_id} not found")
+    return appointment

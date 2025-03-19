@@ -1,11 +1,9 @@
 import { useState } from 'react';
 
-// Generic API hook that handles loading, error states, and different HTTP methods
 export function useApi() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Generic fetch function
   async function FetchData( endpoint, method, body) {
     setLoading(true);
     setError(null);
@@ -16,20 +14,14 @@ export function useApi() {
         method,
         headers: {
           'Content-Type': 'application/json',
-          // Include the token in the request to your API route
           'Authorization': token ? `Bearer ${token}` : '',
         },
       };
 
-      // if (method === 'POST') {
-      //   //options.headers['Content-Type'] = "application/x-www-form-urlencoded"
-      //   options.headers['Content-Type'] = "application/json"
-      // }
-      if (body && method !== 'GET') {
+      if (body) {
         options["body"] = JSON.stringify(body);
       }
 
-      // Call our Next.js API route - this ensures the token is added
       const response = await fetch(`/api/${endpoint}`, options);
 
       if (!response.ok) {
@@ -48,7 +40,6 @@ export function useApi() {
     }
   };
 
-  // Return specific methods for different HTTP verbs
   return {
     get: (endpoint) => FetchData(endpoint, 'GET'),
     post: (endpoint, data) => FetchData(endpoint, 'POST', data),

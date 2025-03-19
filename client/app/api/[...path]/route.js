@@ -1,23 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
-// const API_BASE_URL = process.env.BACKEND_URL;
 
 
 export async function GET(request) {
-  return handleRequest(request, "GET");
+  return await handleRequest(request, "GET");
 }
 
 export async function POST(request) {
-  return handleRequest(request, "POST");
+  return await handleRequest(request, "POST");
 }
 
 export async function PUT(request) {
-  return handleRequest(request, "PUT");
+  return await handleRequest(request, "PUT");
 }
 
 export async function DELETE(request) {
-  return handleRequest(request, "DELETE");
+  return await handleRequest(request, "DELETE");
 }
 
 async function handleRequest(request, method) {
@@ -33,13 +32,12 @@ async function handleRequest(request, method) {
   if (token) {
     headers["Authorization"] = token;
   }
+  
+  headers["Content-Type"] = "application/json"
 
   let body = null;
-  if (method !== "GET" && method !== "HEAD") {
-    body = await request.json().catch(() => null);
-    headers["Content-Type"] = "application/x-www-form-urlencoded"
-  } else {
-    headers["Content-Type"] = "application/json"
+  if (method !== "GET") {
+    body = await request.json().catch(() => {return []});
   }
 
   try {
@@ -73,7 +71,7 @@ async function handleRequest(request, method) {
   
 //   try {
 //     // Use the Docker service name to communicate between containers
-//     const response = await fetch(`http://terapeut-backend:8000/${pathString}${queryString}`, {
+//     const response = await fetch(`http://localhost:8000/${pathString}${queryString}`, {
 //       method: 'GET',
 //       headers: {
 //         'Content-Type': 'application/json',
@@ -106,7 +104,7 @@ async function handleRequest(request, method) {
 //   try {
 //     const body = await request.json();
     
-//     const response = await fetch(`http://terapeut-backend:8000/${pathString}`, {
+//     const response = await fetch(`http://localhost:8000/${pathString}`, {
 //       method: 'POST',
 //       headers: {
 //         'Content-Type': 'application/json',
@@ -140,7 +138,7 @@ async function handleRequest(request, method) {
 //   try {
 //     const body = await request.json();
     
-//     const response = await fetch(`http://terapeut-backend:8000/${pathString}`, {
+//     const response = await fetch(`http://localhost:8000/${pathString}`, {
 //       method: 'PUT',
 //       headers: {
 //         'Content-Type': 'application/json',
@@ -172,7 +170,7 @@ async function handleRequest(request, method) {
 //   const pathString = Array.isArray(path) ? path.join('/') : path;
   
 //   try {
-//     const response = await fetch(`http://terapeut-backend:8000/${pathString}`, {
+//     const response = await fetch(`http://localhost:8000/${pathString}`, {
 //       method: 'DELETE',
 //       headers: {
 //         'Content-Type': 'application/json',

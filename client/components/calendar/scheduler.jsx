@@ -1,22 +1,22 @@
 "use client"
 
-import { isSameDay } from "date-fns"
+import { format, isSameDay } from "date-fns"
 import { cn } from "@/lib/utils"
 
 export function Scheduler({ selectedDate, events }) {
-  // Filter events for the selected date
-  const dayEvents = events.filter((event) => isSameDay(event.date, selectedDate))
+  const dayEvents = events.filter((event) => isSameDay(new Date(event.startTime), selectedDate))
 
-  // Sort events by start time
+  
   const sortedEvents = [...dayEvents].sort((a, b) => a.startTime.localeCompare(b.startTime))
 
-  // Generate hours for the timeline (7 AM to 9 PM)
   const hours = Array.from({ length: 15 }, (_, i) => i + 7)
 
-  // Calculate position and height for an event based on its time
   const getEventStyle = (event) => {
-    const [startHour, startMinute] = event.startTime.split(":").map(Number)
-    const [endHour, endMinute] = event.endTime.split(":").map(Number)
+
+    const startHour = new Date(event.startTime).getHours()
+    const startMinute = new Date(event.startTime).getMinutes()
+    const endHour = new Date(event.endTime).getHours()
+    const endMinute = new Date(event.endTime).getMinutes()
 
     const startPosition = (startHour - 7) * 60 + startMinute
     const endPosition = (endHour - 7) * 60 + endMinute
@@ -62,15 +62,15 @@ export function Scheduler({ selectedDate, events }) {
               <div
                 key={event.id}
                 className={cn(
-                  "absolute left-2 right-2 rounded p-2 overflow-hidden",
-                  event.color,
-                  event.color.includes("yellow") || event.color.includes("green") ? "text-black" : "text-white",
+                  "absolute left-2 right-2 rounded p-2 overflow-hidden bg-blue-600 border text-white",
+                  // event.color,
+                  // event.color.includes("yellow") || event.color.includes("green") ? "text-black" : "text-white",
                 )}
                 style={getEventStyle(event)}
               >
-                <div className="font-medium text-sm">{event.title}</div>
+                <div className="font-medium text-sm">{`${event.type} - ${event.patientInfo.firstName}`}</div>
                 <div className="text-xs opacity-90">
-                  {event.startTime} - {event.endTime}
+                  {format(new Date(event.startTime), "H:mm")} - {format(new Date(event.endTime), "H:mm")}
                 </div>
               </div>
             ))}

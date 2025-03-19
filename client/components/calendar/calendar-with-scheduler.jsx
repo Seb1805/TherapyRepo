@@ -14,8 +14,8 @@ export const events = [
   {
     id: 1,
     type: 'reservation',
-    therapistId: "234-213-4134",
-    patientInfo: { firstName: 'Morten'},
+    therapistId: "f7527f28-3424-4698-8eed-b199e7586416",
+    patientInfo: { firstName: 'Thomas'},
     therapistInfo: { email: 'user@example.com'},
     startTime: new Date(2025, 2, 10, 9).toISOString(),
     endTime: new Date(2025, 2, 10, 10, 30).toISOString(),
@@ -23,7 +23,7 @@ export const events = [
   {
     id: 2,
     type: 'reservation',
-    therapistId: "234-213-4134",
+    therapistId: "0e198ca2-d0b5-4740-ae69-9fe95fd2c64f",
     patientInfo: { firstName: 'Morten'},
     therapistInfo: { email: 'user@example.com'},
     startTime: new Date(2025, 2, 12, 14).toISOString(),
@@ -32,7 +32,7 @@ export const events = [
   {
     id: 3,
     type: 'reservation',
-    therapistId: "234-213-4134",
+    therapistId: "0e198ca2-d0b5-4740-ae69-9fe95fd2c64f",
     patientInfo: { firstName: 'Morten'},
     therapistInfo: { email: 'user@example.com'},
     startTime: new Date(2025, 2, 15, 12).toISOString(),
@@ -41,7 +41,7 @@ export const events = [
   {
     id: 4,
     type: 'reservation',
-    therapistId: "234-213-4134",
+    therapistId: "0e198ca2-d0b5-4740-ae69-9fe95fd2c64f",
     patientInfo: { firstName: 'Morten'},
     therapistInfo: { email: 'user@example.com'},
     startTime: new Date(2025, 2, 18, 9).toISOString(),
@@ -50,7 +50,7 @@ export const events = [
   {
     id: 5,
     type: 'reservation',
-    therapistId: "234-213-4134",
+    therapistId: "f7527f28-3424-4698-8eed-b199e7586416",
     patientInfo: { firstName: 'Thomas'},
     therapistInfo: { email: 'user@example.com'},
     startTime: new Date(2025, 2, 18, 11,30).toISOString(),
@@ -59,7 +59,7 @@ export const events = [
   {
     id: 6,
     type: 'reservation',
-    therapistId: "234-213-4134",
+    therapistId: "0e198ca2-d0b5-4740-ae69-9fe95fd2c64f",
     patientInfo: { firstName: 'Morten'},
     therapistInfo: { email: 'user@example.com'},
     startTime: new Date(2025, 2, 25, 16).toISOString(),
@@ -68,7 +68,7 @@ export const events = [
   {
     id: 7,
     type: 'reservation',
-    therapistId: "234-213-4134",
+    therapistId: "f7527f28-3424-4698-8eed-b199e7586416",
     patientInfo: { firstName: 'Thomas'},
     therapistInfo: { email: 'user@example.com'},
     startTime: new Date(2025, 2, 28, 10).toISOString(),
@@ -77,7 +77,7 @@ export const events = [
   {
     id: 7,
     type: 'reservation',
-    therapistId: "234-213-4134",
+    therapistId: "f7527f28-3424-4698-8eed-b199e7586416",
     patientInfo: { firstName: 'Thomas'},
     therapistInfo: { email: 'user@example.com'},
     startTime: new Date(2025, 2, 5, 12).toISOString(),
@@ -164,6 +164,7 @@ export function CalendarWithScheduler() {
       try {
         const userdata = await api.get("user");
         setUsersData(() => userdata);
+        setFilteredItems(() => userdata);
 
       } catch (error) {
         console.log("Failed to fetch data:", error);
@@ -199,6 +200,7 @@ export function CalendarWithScheduler() {
   }, [usersData]);
 
   function SubmitFilteredChanges(selectedFilter) {
+    console.log(selectedFilter);
     setFilteredItems(() => selectedFilter);
   }
 
@@ -206,6 +208,7 @@ export function CalendarWithScheduler() {
     <div className={cn("grid gap-6", "lg:grid-cols-[2fr_minmax(400px,_1fr)]")}>
       <div className="border rounded-lg p-4 shadow-sm">
         <Calendar
+          users={usersData}
           events={eventsData}
           selectedDate={selectedDate}
           onSelectDate={setSelectedDate}

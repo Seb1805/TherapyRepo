@@ -20,6 +20,7 @@ import CalendarAddEventDialog from "./calendar-add-event-dialog";
 import FilterButton from "../dialog/filter-button";
 
 export function Calendar({
+  users,
   events,
   selectedDate,
   onSelectDate,
@@ -157,6 +158,7 @@ export function Calendar({
         </h2>
         <div className="flex justify-end flex-wrap md:flex-nowrap gap-2">
           <CalendarAddEventDialog
+            users={users}
             selectedDate={selectedDate}
             newReservation
             reservationData={reservationData}

@@ -307,22 +307,22 @@ class JournalDocumentUpdate(BaseModel):
 
 #Appointment
 class Appointment(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    patientId: str
-    therapistId: str
-    patientInfo: Dict
-    therapistInfo: Dict
-    type: str
-    startTime: datetime
-    endTime: datetime
-    duration: int
-    room: str
-    status: str
-    notes: str
-    reminder: Dict
-    invoiceItemId: str
-    createdAt: datetime = Field(default_factory=datetime.utcnow) 
-    updatedAt: datetime = Field(default_factory=datetime.utcnow)
+    id: Optional[str] = Field(default_factory=uuid.uuid4, alias="_id")
+    patientId: Optional[str]
+    therapistId: Optional[str]
+    patientInfo: Optional[Dict]
+    therapistInfo: Optional[Dict]
+    type: Optional[str]
+    startTime: Optional[datetime]
+    endTime: Optional[datetime]
+    duration: Optional[int]
+    room: Optional[str]
+    status: Optional[str]
+    notes: Optional[str]
+    reminder: Optional[Dict]
+    invoiceItemId: Optional[str]
+    createdAt: Optional[datetime] = Field(default_factory=datetime.utcnow)
+    updatedAt: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
     class Config:
         populate_by_name = True
@@ -347,6 +347,7 @@ class Appointment(BaseModel):
                 "updatedAt": "2023-01-01T00:00:00"
             }
         }
+
     
 class AppointmentUpdate(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")

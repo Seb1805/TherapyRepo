@@ -1,4 +1,4 @@
-class trash:
+class openapi_example:
     class Config:
         openapi_examples = {
             "patient": {

@@ -10,7 +10,7 @@ from models import User
 #these should maybe be stored somewhere else ;)
 SECRET = "min-hemmelige-nøgle" 
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

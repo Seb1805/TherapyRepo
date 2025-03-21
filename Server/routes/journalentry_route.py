@@ -7,9 +7,9 @@ from models import JournalEntry, JournalEntryUpdate, User
 import bcrypt
 from .login import SECRET, ALGORITHM, oauth2_scheme
 import jwt
-import logging
+# import logging
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 router = APIRouter()
 
@@ -23,9 +23,8 @@ router = APIRouter()
     # if update_result.modified_count == 0:
     #     raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
 
-
-@router.post("/", response_model=JournalEntry)
-async def create_journal_entry(request: Request, journal_entry: JournalEntry, token: str = Depends(oauth2_scheme)) :
+@router.post("/")
+async def create_journal_entry(request: Request, journal_entry: JournalEntry, token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET, algorithms=[ALGORITHM])
         user_email: str = payload.get("sub")
@@ -33,7 +32,7 @@ async def create_journal_entry(request: Request, journal_entry: JournalEntry, to
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
     except jwt.PyJWTError as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-        
+
     user = await request.app.database["users"].find_one({"email": user_email})
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
@@ -50,8 +49,7 @@ async def create_journal_entry(request: Request, journal_entry: JournalEntry, to
 
     new_journal_dict = new_journal.model_dump(by_alias=True)
 
-    request_body = await request.json()
-    patientId = request_body["patient"]
+    patientId = journal_entry.patient
 
     await request.app.database["patients"].update_one(
         {"_id": patientId},
@@ -61,6 +59,43 @@ async def create_journal_entry(request: Request, journal_entry: JournalEntry, to
     patient = await request.app.database["patients"].find_one({"_id": patientId})
 
     return patient
+# @router.post("/", response_model=JournalEntry)
+# async def create_journal_entry(request: Request, journal_entry: JournalEntry, token: str = Depends(oauth2_scheme)) :
+#     try:
+#         payload = jwt.decode(token, SECRET, algorithms=[ALGORITHM])
+#         user_email: str = payload.get("sub")
+#         if user_email is None:
+#             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+#     except jwt.PyJWTError as e:
+#         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        
+#     user = await request.app.database["users"].find_one({"email": user_email})
+#     if user is None:
+#         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
+
+#     new_journal = JournalEntry(
+#         therapistId=user["_id"],
+#         type=journal_entry.type,
+#         notes=journal_entry.notes,
+#         diagnosis=journal_entry.diagnosis,
+#         treatment=journal_entry.treatment,
+#         treatmentPlan=journal_entry.treatmentPlan,
+#         exerciseRecommendations=journal_entry.exerciseRecommendations,
+#     )
+
+#     new_journal_dict = new_journal.model_dump(by_alias=True)
+
+#     request_body = await request.json()
+#     patientId = request_body["patient"]
+
+#     await request.app.database["patients"].update_one(
+#         {"_id": patientId},
+#         {"$push": {"journal": new_journal_dict}}
+#     )
+
+#     patient = await request.app.database["patients"].find_one({"_id": patientId})
+
+#     return patient
 
             
 @router.get("/{journal_entry_id}", response_description="Get a single journal entry", response_model=JournalEntry)

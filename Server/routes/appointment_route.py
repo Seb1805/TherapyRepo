@@ -4,9 +4,7 @@ from fastapi.responses import Response
 from typing import List
 from datetime import datetime
 from models import Appointment, AppointmentUpdate
-import logging
 
-logging.basicConfig(level=logging.DEBUG)
 
 router = APIRouter()
 

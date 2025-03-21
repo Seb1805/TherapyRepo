@@ -1,5 +1,5 @@
 from faker import Faker
-from src.routers.user_router import User
+from .routes.user_router import User
 
 fake = Faker()
 

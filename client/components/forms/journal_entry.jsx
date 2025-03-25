@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 
-export default function JournalEntry({patientId}) {
+export default function JournalEntry({patientId, setAddJournalButton}) {
   const { register, handleSubmit, formState: { errors }} = useForm();
 
   const onSubmit = async (data) =>  {
@@ -80,9 +80,9 @@ export default function JournalEntry({patientId}) {
               <span className="text-red-600">This field is required</span>
             )}
           </div>
-          <div className="">
+          {/* <div className="">
             <label>exerciseRecommendations</label>
-          </div>
+          </div> */}
           <Button className="mt-4" type="submit">
             Opret journal note
           </Button>

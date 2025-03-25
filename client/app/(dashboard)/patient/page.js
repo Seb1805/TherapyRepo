@@ -45,39 +45,7 @@ export default function Patient() {
 
     setFilter(stringValuesToLower);
   };
-// export default function Patient() {
-//   const [patients, setPatients] = useState([]);
-//   const [filter, setFilter] = useState({'cpr': '123456-1234'});
-//   const api = useApi();
 
-//   useEffect(() => {
-//     async function getData() {
-//       try {
-//         // ændre til nye patient api der accepterer object filterering
-//         console.log(filter);
-//         // const responseData = await api.post("patient/search", filter);
-//         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/patient/search`, {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/x-www-form-urlencoded",
-//           },
-//           body: new URLSearchParams(filter),
-//         });
-//         setPatients(() => response.data);
-//       } catch (error) {
-//         console.log("Failed to fetch data:", error);
-//       }
-//     }
-
-//     getData();
-//   }, [filter]);
-
-//   const handleSearch = (searchData) => {
-//     console.log("Search Tekst uden key:", searchData.searchText);
-//     console.log("Filters:", searchData.filters);
-
-//     setFilter(() => searchData.filters);
-//   };
 
   return (
     <div className="px-2">

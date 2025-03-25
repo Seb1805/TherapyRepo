@@ -31,7 +31,7 @@ export default function PatientData() {
   function ShowAddingJournal() {
     return (
       <div className="xl:col-span-1 xl:row-span-2 col-span-2 mt-12 md:mt-0">
-        {<JournalEntry patientId={patientId} />}
+        {<JournalEntry patientId={patientId} setAddJournalButton={setAddJournalButton} />}
       </div>
     );
   }
@@ -44,40 +44,40 @@ export default function PatientData() {
         <h1 className="text-3xl font-semibold">
           {Capitalize(patientData.firstName)} {Capitalize(patientData.lastName)}
         </h1>
-        <section className="grid grid-cols-1 md:grid-cols-[auto_1fr] xl:grid-cols-[1fr_1fr_1fr] py-3 gap-x-6 md:gap-y-12">
+        <section className="grid grid-cols-[1fr_1fr] xl:grid-cols-[1fr_1fr_1fr] py-3 gap-x-6 md:gap-y-12">
           <div className="col-1 col-span-2 md:col-span-1">
             <div className="grid grid-cols-[100px_1fr]">
-              <label className="whitespace-nowrap col-1">Adresse</label>
-              <label className="whitespace-nowrap col-1">
+              <label className="whitespace-nowrap col-span-1">Adresse</label>
+              <label className="whitespace-nowrap col-span-1">
                 {Capitalize(patientData.contactInfo?.address)},{" "}
                 {Capitalize(patientData.contactInfo?.city)}
               </label>
             </div>
 
             <div className="grid grid-cols-[100px_1fr]">
-              <label className="whitespace-nowrap col-1">Telefon nr.</label>
-              <label className="whitespace-nowrap col-1">
+              <label className="whitespace-nowrap col-span-1">Telefon nr.</label>
+              <label className="whitespace-nowrap col-span-1">
                 {TlfSpacing(patientData.contactInfo?.tlf)}
               </label>
             </div>
 
             <div className="grid grid-cols-[100px_1fr]">
-              <label className="whitespace-nowrap col-1">Email</label>
-              <label className="whitespace-nowrap col-1">
+              <label className="whitespace-nowrap col-span-1">Email</label>
+              <label className="whitespace-nowrap col-span-1">
                 {patientData.contactInfo?.email}
               </label>
             </div>
           </div>
-          <div className="col-1">
+          <div className="col-1 col-span-2 md:col-span-1">
             <div className="grid grid-cols-[100px_1fr]">
-              <label className="whitespace-nowrap col-1">CPR nr.</label>
-              <label className="whitespace-nowrap col-1">
+              <label className="whitespace-nowrap col-span-1">CPR nr.</label>
+              <label className="whitespace-nowrap col-span-1">
                 {patientData.cpr}
               </label>
             </div>
             <div className="grid grid-cols-[100px_1fr]">
-              <label className="whitespace-nowrap col-1">Forsikring</label>
-              <label className="whitespace-nowrap col-1">
+              <label className="whitespace-nowrap col-span-1">Forsikring</label>
+              <label className="whitespace-nowrap col-span-1">
                 {patientData.insurence?.name}
               </label>
             </div>

@@ -20,8 +20,8 @@ manager = LoginManager(SECRET, "/login")
 router = APIRouter()
 
 def verify_password(plain_password, hashed_password):
-    print(f"Plain password: {plain_password}")
-    print(f"Hashed password: {hashed_password}")
+    #print(f"Plain password: {plain_password}")
+    #print(f"Hashed password: {hashed_password}")
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
@@ -64,43 +64,7 @@ async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends
         data={"sub": user["email"], "clinicId": str(user["clinicId"])}, expires_delta=refresh_token_expires
     )
     return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
-# @router.post("/login")
-# async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
-#     user = await get_user_by_email(request, form_data.username)
-#     if not user or not verify_password(form_data.password, user["password"]):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid credentials",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-#     refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
-#     access_token = create_access_token(
-#         data={"sub": user["email"], "clinicId": str(user["clinicId"])}, expires_delta=access_token_expires
-#     )
-#     refresh_token = create_refresh_token(
-#         data={"sub": user["email"], "clinicId": str(user["clinicId"])}, expires_delta=refresh_token_expires
-#     )
-#     return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
 
-# @router.post("/login")
-# async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
-#     user = await get_user_by_email(request, form_data.username)
-#     if not user or not verify_password(form_data.password, user["password"]):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid credentials",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-#     refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
-#     access_token = create_access_token(
-#         data={"sub": user["email"]}, expires_delta=access_token_expires
-#     )
-#     refresh_token = create_refresh_token(
-#         data={"sub": user["email"]}, expires_delta=refresh_token_expires
-#     )
-#     return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
 
 @router.post("/refresh_token")
 async def refresh_token(request: Request, refresh_token: str = Body(...)):

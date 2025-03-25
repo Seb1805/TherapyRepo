@@ -59,6 +59,7 @@ async def create_journal_entry(request: Request, journal_entry: JournalEntry, to
     patient = await request.app.database["patients"].find_one({"_id": patientId})
 
     return patient
+
 # @router.post("/", response_model=JournalEntry)
 # async def create_journal_entry(request: Request, journal_entry: JournalEntry, token: str = Depends(oauth2_scheme)) :
 #     try:

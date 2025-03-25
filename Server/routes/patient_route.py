@@ -17,6 +17,7 @@ async def create_patient(request: Request, patient: Patient = Body(...)):
     )
 
     return created_patient
+
 class PatientFilter(BaseModel):
     journalNumber: str | None = None
     firstName: str | None = None
@@ -40,17 +41,19 @@ async def list_patients(
     filter_params: PatientFilter
 ):
     # Convert Pydantic model to MongoDB filter
-    mongo_filter = {k: v for k, v in filter_params.dict(exclude_none=True).items()}
+        # Convert Pydantic model to MongoDB filter
+    mongo_filter = {}
+    for k, v in filter_params.dict(exclude_none=True).items():
+        if isinstance(v, str):
+            mongo_filter[k] = {"$regex": f"^{v}$", "$options": "i"}
+        else:
+            mongo_filter[k] = v
+    #mongo_filter = {k: v for k, v in filter_params.dict(exclude_none=True).items()}
     
     patients = await request.app.database["patients"].find(mongo_filter).to_list(length=100)
     return patients
 
-@router.get("/{patient_id}", response_description="Get a single patient", response_model=Patient)
-async def get_patient(patient_id: str, request: Request):
-    patient = await request.app.database["patients"].find_one({"_id": patient_id})
-    if patient is None:
-        raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
-    return patient
+
 
 @router.get("/", response_description="List all patients", response_model=List[Patient])
 async def list_patients(request: Request):
@@ -83,3 +86,10 @@ async def delete_patient(patient_id: str, request: Request):
         return Response(status_code=status.HTTP_204_NO_CONTENT)
     
     raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
+
+@router.get("/{patient_id}", response_description="Get a single patient", response_model=Patient)
+async def get_patient(patient_id: str, request: Request):
+    patient = await request.app.database["patients"].find_one({"_id": patient_id})
+    if patient is None:
+        raise HTTPException(status_code=404, detail=f"Patient with ID {patient_id} not found")
+    return patient

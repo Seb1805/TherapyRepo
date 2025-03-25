@@ -58,18 +58,13 @@ export default function SearchInput({ onSearch, filterSuggestions = [{}] }) {
   function ParseSearchInput(input) {
     const filters = {};
     let searchText = input;
-    
-    const filterPattern = /(\w+):([\w-]+)/g;
+    const filterPattern = /(\w+):([\w-\s]+)/g; // Added \s to match spaces
     let match;
-    
     while ((match = filterPattern.exec(input)) !== null) {
       const [fullMatch, key, value] = match;
-      filters[key] = value;
-      searchText = searchText.replace(fullMatch, '');
+      filters[key] = value.trim(); // Trim whitespace from values
     }
-    
     searchText = searchText.trim();
-    
     return {
       filters,
       searchText
@@ -79,9 +74,9 @@ export default function SearchInput({ onSearch, filterSuggestions = [{}] }) {
   
   function GetFilteredSuggestions() {
     if (!inputValue) return filterSuggestions;
-    
-    return filterSuggestions.filter(suggestion => 
-      suggestion.label.toLowerCase().includes(inputValue.toLowerCase())
+    const searchValue = inputValue.replace(/:\s*$/, ''); // Remove trailing colon and spaces
+    return filterSuggestions.filter(suggestion =>
+      suggestion.label.toLowerCase().includes(searchValue.toLowerCase())
     );
   };
   
